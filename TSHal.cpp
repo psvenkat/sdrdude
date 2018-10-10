@@ -51,16 +51,18 @@ static const CalibrationPoint s_touchTargets[] = {
 };
 
 int XP = 6, YP = A1, XM = A2, YM = 7;
+//int XP = 7, YP = A2, XM = A1, YM = 6;
+
 TouchScreen_kbv ts(XP, YP, XM, YM, 300);
 TSPoint_kbv tp;
 
 // Static variables
-static _Bool s_isCalibrated = 0;
+static _Bool s_isCalibrated = 1;
 
 // Calibration Constants
 #define RESCALE_FACTOR 1000000
-static int32_t a2 = 0, B2 = 0, C2 = 0, D2 = 0, E2 = 0, F2 = 0;
-
+//static int32_t a2 = 0, B2 = 0, C2 = 0, D2 = 0, E2 = 0, F2 = 0;
+static int32_t a2=591957, B2=3375, C2=-59518759, D2=-407, E2=-450003, F2=395376641;
 
 // Local functions:
 static void TS_CalculateCalibration(CalibrationPoint touchedPoints[TS_NUM_CALIBRATION_POINTS]);
@@ -292,6 +294,9 @@ static void TS_CalculateCalibration(CalibrationPoint touchedPoints[TS_NUM_CALIBR
 	D2 = (int32_t) (D * RESCALE_FACTOR);
 	E2 = (int32_t) (E * RESCALE_FACTOR);
 	F2 = (int32_t) (F * RESCALE_FACTOR);
+
+	debug(TOUCH, "Calibration Parms a2=%d B2=%d C2=%d D2=%d E2=%d F2=%d\n", 
+		a2, B2, C2, D2, E2, F2);
 }
 
 
