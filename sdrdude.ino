@@ -144,7 +144,7 @@ void loop() {
 //		USBH_Process(&USB_OTG_Core_dev, &USB_Host);
 //
 	  // Touch Events
-		ProcessInputData();
+    ProcessInputData();
 //
 		// Polling tasks:
 		RxTx_CheckAndHandlePTT();

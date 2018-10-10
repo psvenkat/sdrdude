@@ -51,7 +51,7 @@ void TS_Initialize(void);
 _Bool TS_HasNewTouchEvent(void);
 void  TS_GetTouchEventCoords(uint16_t *pX, uint16_t *pY);
 void  TS_ClearTouchEvent(void);
-
+void  releaseSharedPins();
 
 /*
  * Calibration Functions

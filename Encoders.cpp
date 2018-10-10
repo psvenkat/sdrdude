@@ -152,8 +152,8 @@ void ISRFreqA(){
 		s_encoderFreq.encoderPos--; //decrement the encoder's position count
 		s_encoderFreq.bFlag = 0; //reset flags for the next turn
 		s_encoderFreq.aFlag = 0; //reset flags for the next turn
-		s_encoderFreq.direction = -1;
-		s_encoderFreq.change--;
+		s_encoderFreq.direction = 1;
+		s_encoderFreq.change++;
 	}
 	else if (s_encoderFreq.regData == READ2_A) 
 		s_encoderFreq.bFlag = 1; //signal that we're expecting pinB to 
@@ -169,8 +169,8 @@ void ISRFreqB(){
 		s_encoderFreq.encoderPos++; //decrement the encoder's position count
 		s_encoderFreq.bFlag = 0; //reset flags for the next turn
 		s_encoderFreq.aFlag = 0; //reset flags for the next turn
-		s_encoderFreq.direction = 1;
-		s_encoderFreq.change++;
+		s_encoderFreq.direction = -1;
+		s_encoderFreq.change--;
 	}
 	else if (s_encoderFreq.regData == READ2_B) 
 		s_encoderFreq.aFlag = 1; //signal that we're expecting pinB to 
