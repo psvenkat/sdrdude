@@ -20,6 +20,7 @@
   */
   
 /* Includes ------------------------------------------------------------------*/
+#include <Arduino.h>
 #include "gl_fonts.h"
 
 /** @addtogroup Embedded_GUI_Library
@@ -40,7 +41,7 @@
 /**
   * @brief  ASCII font 16x24 table definition
   */
-const uint16_t GL_ASCII16x24_Table [] =
+const uint16_t GL_ASCII16x24_Table [] PROGMEM =
   {
     /**
       * @brief        Space ' '
@@ -617,7 +618,7 @@ const uint16_t GL_ASCII16x24_Table [] =
 /*
  * From AsciiLib.c
  */
-const uint16_t GL_ASCII8x16_Table [] =
+const uint16_t GL_ASCII8x16_Table [] PROGMEM =
 {
 		0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,/*" ",0*/
 		0x0000,0x0000,0x0000,0x1800,0x3C00,0x3C00,0x3C00,0x1800,0x1800,0x0000,0x1800,0x1800,0x0000,0x0000,0x0000,0x0000,/*"!",1*/
@@ -719,7 +720,7 @@ const uint16_t GL_ASCII8x16_Table [] =
 /**
   * @brief  ASCII font 12x12 table definition
   */  
-const uint16_t GL_ASCII12x12_Table [] =
+const uint16_t GL_ASCII12x12_Table [] PROGMEM =
   {
     0x000000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
     0x0000, 0x2000, 0x2000, 0x2000, 0x2000, 0x2000, 0x2000, 0x2000, 0x0000, 0x2000, 0x0000, 0x0000,
@@ -822,7 +823,7 @@ const uint16_t GL_ASCII12x12_Table [] =
 /**
   * @brief  ASCII font 8x12 table definition
   */  
-const uint16_t GL_ASCII8x12_Table [] =
+const uint16_t GL_ASCII8x12_Table [] PROGMEM =
   {
     0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
     0x0000, 0x0000, 0x0000, 0x1000, 0x1000, 0x1000, 0x1000, 0x1000, 0x1000, 0x0000, 0x1000, 0x0000,
@@ -925,7 +926,7 @@ const uint16_t GL_ASCII8x12_Table [] =
 /**
   * @brief  ASCII font 8x8 table definition
   */
-const uint16_t GL_ASCII8x8_Table [] =
+const uint16_t GL_ASCII8x8_Table [] PROGMEM =
   {
     0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
     0x4000, 0x4000, 0x4000, 0x4000, 0x4000, 0x4000, 0x0000, 0x4000,
@@ -1029,7 +1030,7 @@ const uint16_t GL_ASCII8x8_Table [] =
 /**
   * @brief  ASCII font 8x12: each character is 8 column (8dots large) and 12 raw (12 dots high) 
   */
-const uint16_t GL_ASCII8x12_bold_Table[] =
+const uint16_t GL_ASCII8x12_bold_Table[] PROGMEM =
   {
     0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,   /* ' ' 32 */
     0x0000,  0x1800,  0x3C00,  0x3C00,  0x3C00,  0x1800,  0x1800,  0x0000,  0x1800,  0x1800,  0x0000,  0x0000,   /* '!' 33 */
@@ -1257,46 +1258,46 @@ const uint16_t GL_ASCII8x12_bold_Table[] =
     0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000    /* 'ÿ' 255 */
   };
 
-gl_sFONT GL_Font16x24 =
+gl_sFONT GL_Font16x24 PROGMEM =
   {
     GL_ASCII16x24_Table,
-    16, /* Width */
-    24, /* Height */
+    16, // Width 
+    24, // Height 
   };
 
 gl_sFONT GL_Font8x16 =
   {
 	GL_ASCII8x16_Table,
-    8, /* Width */
-    16, /* Height */
+    8, // Width 
+    16, // Height 
   };
 
 gl_sFONT GL_Font12x12 =
   {
     GL_ASCII12x12_Table,
-    12, /* Width */
-    12, /* Height */
+    12, // Width
+    12, // Height 
   };
 
 gl_sFONT GL_Font8x12 =
   {
     GL_ASCII8x12_Table,
-    8, /* Width */
-    12, /* Height */
+    8, // Width 
+    12, // Height *
   };
 
 gl_sFONT GL_Font8x12_bold =
   {
     GL_ASCII8x12_bold_Table,
-    8, /* Width */
-    12, /* Height */
+    8, // Width 
+    12, // Height 
   };
 
 gl_sFONT GL_Font8x8 =
   {
     GL_ASCII8x8_Table,
-    8, /* Width */
-    8, /* Height */
+    8, // Width 
+    8, // Height 
   };
 
 

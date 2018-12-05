@@ -18,6 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+#include <avr/pgmspace.h>
+#include <malloc.h>
 #include <stdlib.h>
 #include <stdint.h> 
 
@@ -71,7 +73,15 @@ extern int NCO_Point;
 extern int NCOTuneCount;
 extern int NCO_Flag;
 
+extern char _end;
+extern "C" char *sbrk(int i);
+char *ramstart=(char *)0x20070000;
+char *ramend=(char *)0x20088000;
+
 const uint32_t CODEC_FREQUENCY = 8000;
+
+const PROGMEM 
+uint32_t fill[8000] = {0,0,0};
 
 /**PSV
 // USB structures (Must be 4-byte aligned if DMA active)
@@ -87,7 +97,7 @@ static void displaySplashScreen(void);
 static void displaySerialPortWelcome(void);
 static void main_delay(uint32_t numLoops);
 static void displayLoadStationData(void);
-
+static void showMemUsage();
 char testMode = 'p';
 
 /*
@@ -102,13 +112,27 @@ void xfunc_out(unsigned char ch) {
 
 void setup()
 {
+  Serial.begin(115200);
+  Serial.println("SDRDUE Version 1.1");
+
+  //xdev_out(Serial.write());
+  
+  Serial.println("Mem 1");
+    //String(pgm_read_word_near(fill+1))); 
+    //String(fill[0]));
+  showMemUsage();
 
 	initializeHardware();
 
+  //uint16_t x = pgm_read_word(fill[1]);
 	/*
 	 * Startup the GUI
 	 */
+  Serial.println("Mem 2");
+  showMemUsage();
 	Screen_CreateAllScreens();
+  Serial.println("Mem 3");
+  showMemUsage();
   
 	if (!TS_IsCalibrated()) {
 		Screen_ShowScreen(&g_screenCalibrate);
@@ -117,14 +141,18 @@ void setup()
 	}
    
  	InitTextDisplay();
-
+  
 	//send initialization to serial control port
 //**	uart2_initSerial();
+
+    showMemUsage();
+
 }
 
 void loop() {
 		// Check if encoder-knobs have changed:
-    Encoders_CalculateAndProcessChanges();
+     
+     Encoders_CalculateAndProcessChanges();
 
 		if (NCO_Flag){
 			if (--NCOTuneCount <= 0){
@@ -165,6 +193,7 @@ void loop() {
 		Screen_Update(); //see if button is pressed
     UpdateScreenWithChanges();  //Iterate thru all 
     //testChangeMode();
+ 
 }
 
 /**PSV
@@ -194,15 +223,24 @@ void Strobe_USB(void) {
 	USBH_Process(&USB_OTG_Core_dev, &USB_Host);
 }
 **/
+static void showMemUsage(){
+  char *heapend=sbrk(0);
+  register char * stack_ptr asm ("sp");
+  struct mallinfo mi=mallinfo();
+
+  Serial.print(F("Dynamic ram used: "));
+  Serial.println(mi.uordblks);
+  Serial.print(F("Program static ram used "));
+  Serial.println(&_end - ramstart);
+  Serial.print(F("Stack ram used ")); 
+  Serial.println(ramend - stack_ptr);
+  Serial.print(F("My guess at free mem: "));
+  Serial.println(stack_ptr - heapend + mi.fordblks);
+}
 
 static void initializeHardware(void)
 {
-  Serial.begin(115200);
-  Serial.println("SDRDUE Version 1.1");
-
-  //xdev_out(Serial.write());
-  
-	debug(INIT, "initializeHardware:");
+	debug(INIT, (const char*)F("initializeHardware:"));
 	const int SETUP_DELAY = 100;
 /**PSV  
 	debug(INIT, "initializeHardware:uart_init\n");
@@ -213,11 +251,11 @@ static void initializeHardware(void)
 	debug(INIT, "initializeHardware:uart_init\n");
 	displaySerialPortWelcome();
 **/ 
-	debug(INIT, "initializeHardware:LCD_Init\n");
+	debug(INIT, (const char*)F("initializeHardware:LCD_Init\n"));
 	GL_LCD_Init();
 	main_delay(SETUP_DELAY);
 
-	debug(INIT, "initializeHardware:I2C_GPIO_Init\n");
+	debug(INIT, (const char*)F("initializeHardware:I2C_GPIO_Init\n"));
 	I2C_GPIO_Init();
 	main_delay(SETUP_DELAY);
 	debug(INIT, "initializeHardware:I2C_Cntrl_Init\n");
@@ -255,13 +293,13 @@ static void initializeHardware(void)
 			main_delay(SETUP_DELAY);
 	}
 **/
-
+  
   if (Si570_isEnabled()) {
     debug(INIT, "initializeHardware:Si570_Init\n");
     Si570_Init();
     main_delay(SETUP_DELAY);
   }
-
+  
 	debug(INIT, "initializeHardware:SetRXFrequency\n");
 	SetRXFrequency(1000);
 	NCO_Point = (int)((1000./15.625)+.5);
@@ -278,6 +316,8 @@ static void initializeHardware(void)
 	FrequencyManager_Initialize();
 	main_delay(SETUP_DELAY);
 
+  showMemUsage();
+  
 	debug(INIT, "initializeHardware:Encoders_Init\n");
 	Encoders_Init();
 	main_delay(SETUP_DELAY);
@@ -322,7 +362,6 @@ static void initializeHardware(void)
 	 PWM_Config(256);
 	 PWM_SetDC(128);
 
-
 	// Init USB Host Library
 	USBH_Init(
 			&USB_OTG_Core_dev, // Core handle
@@ -335,23 +374,29 @@ static void initializeHardware(void)
 			&HID_cb,           // In /drv/src/usbh_hid.core.c (class callback)
 			&USR_Callbacks     // In /usbh_usr.c (user callback)
 	);
+  **/
 	main_delay(SETUP_DELAY);
 	debug(INIT, "initializeHardware:init_DSP\n");
 	init_DSP();
+  
 	main_delay(SETUP_DELAY);
 	debug(INIT, "initializeHardware:Audio_DMA_Start\n");
   //Get everything up and running before starting DMA Interrupt
+  // Need 8K mem for this
 	Audio_DMA_Start();			
 	main_delay(SETUP_DELAY);
+  showMemUsage();
+  
 	debug(INIT, "initializeHardware:GPIO_BandFilterInit\n");
 	GPIO_BandFilterInit();
-**/
+
 	int newFreq = FrequencyManager_GetCurrentFrequency();
 	FrequencyManager_SetCurrentFrequency(newFreq);
 	FrequencyManager_Check_FilterBand(newFreq);
 	main_delay(SETUP_DELAY);
 }
 
+/** PSV not used
 static void displaySplashScreen(void)
 {
 	GL_DrawBMP16Bit(0,0, gimp_image.height, gimp_image.width, (uint16_t*) gimp_image.pixel_data, 0);
@@ -372,6 +417,7 @@ static void displaySerialPortWelcome(void)
 	xprintf("Serial port at 115,200 baud, 8 bit, no parity, 1 stop-bit.\n");
 	xprintf("\n");
 }
+*/
 
 static void displayLoadStationData(void)
 {
@@ -379,7 +425,6 @@ static void displayLoadStationData(void)
 	GL_SetBackColor(GL_WHITE);
 	GL_PrintString(0, 200, "Loading...", 0);
 }
-
 
 static void main_delay(uint32_t numLoops)
 {

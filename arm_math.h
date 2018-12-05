@@ -257,7 +257,8 @@
 #define _ARM_MATH_H
 
 #define __CMSIS_GENERIC         /* disable NVIC and Systick functions */
-#define ARM_MATH_CM4
+//**PSV** #define ARM_MATH_CM4
+#define ARM_MATH_CM3		//PSV
 
 #if defined (ARM_MATH_CM4)
 #include "core_cm4.h"
@@ -471,10 +472,11 @@ extern "C"
 
 #if defined (ARM_MATH_CM0) && ((defined (__ICCARM__)) ||(defined (__GNUC__)) )
 
-  __STATIC_INLINE  uint32_t __CLZ(q31_t data);
+  //__STATIC_INLINE  uint32_t __CLZ(q31_t data);
 
 
-  __STATIC_INLINE uint32_t __CLZ(q31_t data)
+  //__STATIC_INLINE uint32_t __CLZ(q31_t data)
+  static __INLINE uint8_t __CLZ(uint32_t data)
   {
     uint32_t count = 0;
     uint32_t mask = 0x80000000;

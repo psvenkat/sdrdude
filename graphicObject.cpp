@@ -21,6 +21,7 @@
  */
 
 /* Includes ------------------------------------------------------------------*/
+#include <Arduino.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,6 +42,8 @@
  */
 
 /* External variables --------------------------------------------------------*/
+static int nMalloc;
+static uint32_t sizeMalloc;
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private defines -----------------------------------------------------------*/
@@ -262,6 +265,8 @@ GL_PageControls_TypeDef* NewLabel(uint16_t ID, const char* label, GL_Direction d
 	// (malloc calls _sbrk(), which has been naively implemented to never recover memory.
 	pControlObj = (GL_Label_TypeDef *) malloc(sizeof(GL_Label_TypeDef));
 	if (pControlObj) {
+		nMalloc++;
+		sizeMalloc+=sizeof(GL_Label_TypeDef);
 		pControlObj->ID = ID;
 		GL_SetStringFieldValue(pControlObj->label, label, MAX_LABEL_LENGTH);
 
@@ -274,6 +279,8 @@ GL_PageControls_TypeDef* NewLabel(uint16_t ID, const char* label, GL_Direction d
 
 		pPageControlObj = (GL_PageControls_TypeDef*) malloc(sizeof(GL_PageControls_TypeDef));
 		if (pPageControlObj) {
+			nMalloc++;
+			sizeMalloc+=sizeof(GL_PageControls_TypeDef);
 			pPageControlObj->objPTR = (void*) pControlObj;
 			pPageControlObj->objType = GL_LABEL;
 		}
@@ -300,6 +307,8 @@ GL_PageControls_TypeDef* NewButton(uint16_t ID, const char* label, void (*pEvent
 	pControlObj = (GL_Button_TypeDef *) malloc(sizeof(GL_Button_TypeDef));
 
 	if (pControlObj) {
+		nMalloc++;
+		sizeMalloc+=sizeof(GL_Button_TypeDef);
 		pControlObj->ID = ID;
 #ifndef USE_2D_OBJECTS
 		pControlObj->ImageUnClickedPTR = (uint8_t*) BtnNormal;
@@ -313,6 +322,8 @@ GL_PageControls_TypeDef* NewButton(uint16_t ID, const char* label, void (*pEvent
 
 		pPageControlObj = (GL_PageControls_TypeDef*) malloc(sizeof(GL_PageControls_TypeDef));
 		if (pPageControlObj) {
+			nMalloc++;
+			sizeMalloc+=sizeof(GL_PageControls_TypeDef);
 			pPageControlObj->objPTR = (void*) pControlObj;
 			pPageControlObj->objType = GL_BUTTON;
 		}
@@ -328,7 +339,7 @@ GL_PageControls_TypeDef* NewButton(uint16_t ID, const char* label, void (*pEvent
  */
 void ChangeButtonText(GL_Page_TypeDef* pPage, uint16_t ID, const char* label)
 {
-	debug (GUI, "ChangeButtonText: \n");
+	debug (GUI, (const char*)F("ChangeButtonText: \n"));
 
 	for (uint32_t index = 0; index < pPage->ControlCount; index++) {
 		GL_PageControls_TypeDef* pPageCtrl = pPage->PageControls[index];
@@ -359,6 +370,8 @@ GL_PageControls_TypeDef* NewCheckbox(uint16_t ID, const char* label, void (*pEve
 
 	pControlObj = (GL_Checkbox_TypeDef *) malloc(sizeof(GL_Checkbox_TypeDef));
 	if (pControlObj) {
+		nMalloc++;
+		sizeMalloc+=sizeof(GL_Checkbox_TypeDef);
 		pControlObj->ID = ID;
 		GL_SetStringFieldValue(pControlObj->label, label, MAX_CHECKBOX_LABEL_LENGTH);
 
@@ -373,6 +386,8 @@ GL_PageControls_TypeDef* NewCheckbox(uint16_t ID, const char* label, void (*pEve
 
 		pPageControlObj = (GL_PageControls_TypeDef*) malloc(sizeof(GL_PageControls_TypeDef));
 		if (pPageControlObj) {
+			nMalloc++;
+			sizeMalloc+=sizeof(GL_PageControls_TypeDef);
 			pPageControlObj->objPTR = (void*) pControlObj;
 			pPageControlObj->objType = GL_CHECKBOX;
 		}
@@ -396,6 +411,8 @@ GL_RadioButtonGrp_TypeDef* NewRadioButtonGrp(uint16_t ID)
 	pRbuttonGrp = (GL_RadioButtonGrp_TypeDef *) malloc(sizeof(GL_RadioButtonGrp_TypeDef));
 
 	if (pRbuttonGrp) {
+		nMalloc++;
+		sizeMalloc+=sizeof(GL_RadioButtonGrp_TypeDef);
 		pRbuttonGrp->ID = ID;
 		/* Create the RadioButton object */
 		Create_RadioButtonGrp(pRbuttonGrp);
@@ -423,6 +440,8 @@ GL_PageControls_TypeDef* AddRadioOption(GL_RadioButtonGrp_TypeDef* pThis, const 
 	pOptionObj = (GL_RadioOption_TypeDef *) malloc(sizeof(GL_RadioOption_TypeDef));
 
 	if (pOptionObj) {
+		nMalloc++;
+		sizeMalloc+=sizeof(GL_RadioOption_TypeDef);
 		pOptionObj->RadioButtonGrp = pThis;
 
 		GL_SetStringFieldValue(pOptionObj->label, label, MAX_RADIO_OPTION_LABEL_LENGTH);
@@ -431,6 +450,8 @@ GL_PageControls_TypeDef* AddRadioOption(GL_RadioButtonGrp_TypeDef* pThis, const 
 
 		pPageControlObj = (GL_PageControls_TypeDef*) malloc(sizeof(GL_PageControls_TypeDef));
 		if (pPageControlObj) {
+			nMalloc++;
+			sizeMalloc+=sizeof(GL_PageControls_TypeDef);
 			pPageControlObj->objPTR = (void*) pOptionObj;
 			pPageControlObj->objType = GL_RADIO_BUTTON;
 
@@ -465,12 +486,16 @@ GL_PageControls_TypeDef* NewComboBoxGrp(uint16_t ID)
 	pComboBoxGrp = (GL_ComboBoxGrp_TypeDef *) malloc(sizeof(GL_ComboBoxGrp_TypeDef));
 
 	if (pComboBoxGrp) {
+		nMalloc++;
+		sizeMalloc+=sizeof(GL_ComboBoxGrp_TypeDef);
 		pComboBoxGrp->ID = ID;
 		/* Create the ComboBox object */
 		Create_ComboBoxGrp(pComboBoxGrp);
 
 		pPageControlObj = (GL_PageControls_TypeDef*) malloc(sizeof(GL_PageControls_TypeDef));
 		if (pPageControlObj) {
+			nMalloc++;
+			sizeMalloc+=sizeof(GL_PageControls_TypeDef);
 			pPageControlObj->objPTR = (void*) pComboBoxGrp;
 			pPageControlObj->objType = GL_COMBOBOX;
 		}
@@ -501,6 +526,8 @@ GL_ErrStatus AddComboOption(GL_ComboBoxGrp_TypeDef* pThis, const char* label, vo
 	pOptionObj = (GL_ComboOption_TypeDef *) malloc(sizeof(GL_ComboOption_TypeDef));
 
 	if (pOptionObj) {
+		nMalloc++;
+		sizeMalloc+=sizeof(GL_ComboOption_TypeDef);
 		pOptionObj->ComboBoxGrp = pThis;
 
 		GL_SetStringFieldValue(pOptionObj->label, label, MAX_COMBO_LABEL_LENGTH);
@@ -538,6 +565,8 @@ GL_PageControls_TypeDef* NewSwitch(uint16_t ID, const char* label_1, const char*
 	pControlObj = (GL_Switch_TypeDef *) malloc(sizeof(GL_Switch_TypeDef));
 
 	if (pControlObj) {
+		nMalloc++;
+		sizeMalloc+=sizeof(GL_Switch_TypeDef);
 		pControlObj->ID = ID;
 
 #ifndef USE_2D_OBJECTS
@@ -553,6 +582,8 @@ GL_PageControls_TypeDef* NewSwitch(uint16_t ID, const char* label_1, const char*
 
 		pPageControlObj = (GL_PageControls_TypeDef*) malloc(sizeof(GL_PageControls_TypeDef));
 		if (pPageControlObj) {
+			nMalloc++;
+			sizeMalloc+=sizeof(GL_PageControls_TypeDef);
 			pPageControlObj->objPTR = (void*) pControlObj;
 			pPageControlObj->objType = GL_SWITCH;
 		}
@@ -581,6 +612,8 @@ GL_PageControls_TypeDef* NewIcon(uint16_t ID, const uint8_t* Image_PTR, uint16_t
 
 	pControlObj = (GL_Icon_TypeDef *) malloc(sizeof(GL_Icon_TypeDef));
 	if (pControlObj) {
+		nMalloc++;
+		sizeMalloc+=sizeof(GL_Icon_TypeDef);
 		pControlObj->ID = ID;
 		pControlObj->ImagePTR = (uint8_t*) Image_PTR;
 		pControlObj->ImageWidth = Width;
@@ -592,6 +625,8 @@ GL_PageControls_TypeDef* NewIcon(uint16_t ID, const uint8_t* Image_PTR, uint16_t
 
 		pPageControlObj = (GL_PageControls_TypeDef*) malloc(sizeof(GL_PageControls_TypeDef));
 		if (pPageControlObj) {
+			nMalloc++;
+			sizeMalloc+=sizeof(GL_PageControls_TypeDef);
 			pPageControlObj->objPTR = (void*) pControlObj;
 			pPageControlObj->objType = GL_ICON;
 		}
@@ -631,6 +666,8 @@ GL_PageControls_TypeDef* NewCustomWidget (
 	pControlObj = (GL_Custom_TypeDef *) malloc(sizeof(GL_Custom_TypeDef));
 
 	if (pControlObj) {
+		nMalloc++;
+		sizeMalloc+=sizeof(GL_Custom_TypeDef);
 		pControlObj->ID = ID;
 		pControlObj->Control_Visible = GL_TRUE;
 		pControlObj->GetWidth = pGetWidth;
@@ -642,6 +679,8 @@ GL_PageControls_TypeDef* NewCustomWidget (
 //		pPageControlObj = (GL_PageControls_TypeDef*) malloc(sizeof(GL_PageControls_TypeDef));
 		pPageControlObj = static_cast<GL_PageControls_TypeDef*> (malloc(sizeof(GL_PageControls_TypeDef)));
 		if (pPageControlObj) {
+			nMalloc++;
+			sizeMalloc+=sizeof(GL_PageControls_TypeDef);
 			pPageControlObj->objPTR = (void*) pControlObj;
 			pPageControlObj->objType = GL_CUSTOM;
 		}
@@ -2158,30 +2197,30 @@ static GL_ErrStatus SetPage(GL_Page_TypeDef* pPage, GL_bool bVal)
  */
 GL_ErrStatus ShowPage(GL_Page_TypeDef* pPage, GL_bool bVal)
 {
-	debug(GUI, "ShowPage:1\n");
+	debug(GUI, (const char*)F("ShowPage:1\n"));
 	uint32_t i = 0;
 	if (!pPage) {
 		return GL_ERROR;
-		debug(GUI, "ShowPage:2\n");
+		debug(GUI, (const char*)F("ShowPage:2\n"));
 	}
 	pPage->Page_Visible = bVal;
 	pPage->SetPage(pPage, bVal);
-	debug(GUI, "ShowPage:3\n");
+	debug(GUI, (const char*)F("ShowPage:3\n"));
 	if (bVal == GL_TRUE) {
-		debug(GUI, "ShowPage:4\n");
+		debug(GUI, (const char*)F("ShowPage:4\n"));
 		while (i < pPage->ControlCount) /* search for the required button */
 		{
-			debug(GUI, "ShowPage:5 i=%d\n", i);
+			debug(GUI, (const char*)F("ShowPage:5 i=%d\n"), i);
 			pPage->PageControls[i]->SetObjVisible(pPage->PageControls[i], pPage->PageControls[i]->objCoordinates);
 			i++;
 		}
 	}
 	else {
-		debug(GUI, "ShowPage:6\n");
+		debug(GUI, (const char*)F("ShowPage:6\n"));
 //		GL_Clear(GL_WHITE);
 	}
 	pPage->SetPage(pPage, bVal);
-	debug(GUI, "ShowPage:7\n");
+	debug(GUI, (const char*)F("ShowPage:7\n"));
 
 	return GL_OK;
 }
@@ -2384,7 +2423,7 @@ void ProcessInputData(void)
 		uint16_t rawX = 0, rawY = 0;
 		TS_GetUncalibratedTouchEvent(&rawX, &rawY);
 
-		debug (TOUCH, "Touch screen touched at X=%3d, Y=%3d (Raw X=%6d, Y=%6d).\n", touchX, touchY, rawX, rawY);
+		debug (TOUCH, (const char*)F("Touch screen touched at X=%3d, Y=%3d (Raw X=%6d, Y=%6d).\n"), touchX, touchY, rawX, rawY);
 
 		// Handle sleep mode
 		if (vu8_gSleepState == 1) {
@@ -2471,7 +2510,7 @@ static void CallEvent(GL_PageControls_TypeDef* pControl)
 	uint32_t index = 0;
 	void* pTmp;
 
-	debug (TOUCH, "CallEvent ObjType %d.\n", static_cast<int>(pControl->objType));
+	debug (TOUCH, (const char*)F("CallEvent ObjType %d.\n"), static_cast<int>(pControl->objType));
 
 	switch (pControl->objType) {
 	case GL_BUTTON:
@@ -2514,7 +2553,7 @@ static void CallEvent(GL_PageControls_TypeDef* pControl)
 		}
 		break;
 	case GL_CUSTOM:
-		debug (TOUCH, "Call EventHandler GL_CUSTOM. \n");
+		debug (TOUCH, (const char*)F("Call EventHandler GL_CUSTOM. \n"));
 
 		pTmp = (GL_Custom_TypeDef*) (pControl->objPTR);
 		((GL_Custom_TypeDef*) pTmp)->EventHandler(pControl);

@@ -1,0 +1,351 @@
+AGC_Processing.cpp:int 	shape = 3; 		// Mode 0 (CW)  time constant shaping:  decay * shape and attack / shape
+AGC_Processing.cpp://const float PGA_TC_Slow = .5; 	//Time constant for slow PGA decay
+AGC_Processing.cpp://const float PGA_TC_Fast = .01; 	//Time constant for fast PGA attack
+AGC_Processing.cpp://const float AGC_TC_Slow = .5;	    //Time constant for slow AGC decay
+AGC_Processing.cpp://const float AGC_TC_Fast = .01;	//Time constant for fast AGC attack
+AGC_Processing.cpp:const float PGA_TC_Slow = 3.0; 	//Time constant for slow PGA decay
+AGC_Processing.cpp:const float PGA_TC_Fast = .1;	//Time constant for fast PGA attack
+AGC_Processing.cpp:const float AGC_TC_Slow = .8;	//Time constant for slow AGC decay
+AGC_Processing.cpp:const float AGC_TC_Fast = .1;	//Time constant for fast AGC attack
+AGC_Processing.cpp://const double dt = .0000833;//12000 hz sample rate artifact from SDR2GO
+AGC_Processing.cpp:const double dt = .000125;//8000 hz sample rate
+arm_cfft_radix4_init_q15.cpp:static const q15_t twiddleCoefQ15[4096*2] = {
+arm_math.h: * then the instance structure cannot be placed into a const data section.
+arm_math.h: * To place the instance structure in a const data
+arm_math.h:  const arm_fir_instance_q7 * S,
+arm_math.h:  const arm_fir_instance_q15 * S,
+arm_math.h:  const arm_fir_instance_q15 * S,
+arm_math.h:  const arm_fir_instance_q31 * S,
+arm_math.h:  const arm_fir_instance_q31 * S,
+arm_math.h:  const arm_fir_instance_f32 * S,
+arm_math.h:  const arm_biquad_casd_df1_inst_q15 * S,
+arm_math.h:  const arm_biquad_casd_df1_inst_q15 * S,
+arm_math.h:  const arm_biquad_casd_df1_inst_q31 * S,
+arm_math.h:  const arm_biquad_casd_df1_inst_q31 * S,
+arm_math.h:  const arm_biquad_casd_df1_inst_f32 * S,
+arm_math.h:  const arm_matrix_instance_f32 * pSrcA,
+arm_math.h:  const arm_matrix_instance_f32 * pSrcB,
+arm_math.h:  const arm_matrix_instance_q15 * pSrcA,
+arm_math.h:  const arm_matrix_instance_q15 * pSrcB,
+arm_math.h:  const arm_matrix_instance_q31 * pSrcA,
+arm_math.h:  const arm_matrix_instance_q31 * pSrcB,
+arm_math.h:  const arm_matrix_instance_f32 * pSrc,
+arm_math.h:  const arm_matrix_instance_q15 * pSrc,
+arm_math.h:  const arm_matrix_instance_q31 * pSrc,
+arm_math.h:  const arm_matrix_instance_f32 * pSrcA,
+arm_math.h:  const arm_matrix_instance_f32 * pSrcB,
+arm_math.h:  const arm_matrix_instance_q15 * pSrcA,
+arm_math.h:  const arm_matrix_instance_q15 * pSrcB,
+arm_math.h:  const arm_matrix_instance_q15 * pSrcA,
+arm_math.h:  const arm_matrix_instance_q15 * pSrcB,
+arm_math.h:  const arm_matrix_instance_q31 * pSrcA,
+arm_math.h:  const arm_matrix_instance_q31 * pSrcB,
+arm_math.h:  const arm_matrix_instance_q31 * pSrcA,
+arm_math.h:  const arm_matrix_instance_q31 * pSrcB,
+arm_math.h:  const arm_matrix_instance_f32 * pSrcA,
+arm_math.h:  const arm_matrix_instance_f32 * pSrcB,
+arm_math.h:  const arm_matrix_instance_q15 * pSrcA,
+arm_math.h:  const arm_matrix_instance_q15 * pSrcB,
+arm_math.h:  const arm_matrix_instance_q31 * pSrcA,
+arm_math.h:  const arm_matrix_instance_q31 * pSrcB,
+arm_math.h:  const arm_matrix_instance_f32 * pSrc,
+arm_math.h:  const arm_matrix_instance_q15 * pSrc,
+arm_math.h:  const arm_matrix_instance_q31 * pSrc,
+arm_math.h:  const arm_cfft_radix4_instance_q15 * S,
+arm_math.h:  const arm_cfft_radix2_instance_q15 * S,
+arm_math.h:  const arm_cfft_radix4_instance_q31 * S,
+arm_math.h:  const arm_cfft_radix2_instance_q31 * S,
+arm_math.h:  const arm_cfft_radix2_instance_f32 * S,
+arm_math.h:  const arm_cfft_radix4_instance_f32 * S,
+arm_math.h:  const arm_rfft_instance_q15 * S,
+arm_math.h:  const arm_rfft_instance_q31 * S,
+arm_math.h:  const arm_rfft_instance_f32 * S,
+arm_math.h:  const arm_dct4_instance_f32 * S,
+arm_math.h:  const arm_dct4_instance_q31 * S,
+arm_math.h:  const arm_dct4_instance_q15 * S,
+arm_math.h:   * @brief  Adds a constant offset to a floating-point vector.
+arm_math.h:   * @brief  Adds a constant offset to a Q7 vector.
+arm_math.h:   * @brief  Adds a constant offset to a Q15 vector.
+arm_math.h:   * @brief  Adds a constant offset to a Q31 vector.
+arm_math.h:   * @brief  Fills a constant value into a floating-point vector. 
+arm_math.h:   * @brief  Fills a constant value into a Q7 vector. 
+arm_math.h:   * @brief  Fills a constant value into a Q15 vector. 
+arm_math.h:   * @brief  Fills a constant value into a Q31 vector. 
+arm_math.h:  const arm_fir_decimate_instance_f32 * S,
+arm_math.h:  const arm_fir_decimate_instance_q15 * S,
+arm_math.h:  const arm_fir_decimate_instance_q15 * S,
+arm_math.h:  const arm_fir_decimate_instance_q31 * S,
+arm_math.h:  const arm_fir_interpolate_instance_q15 * S,
+arm_math.h:  const arm_fir_interpolate_instance_q31 * S,
+arm_math.h:  const arm_fir_interpolate_instance_f32 * S,
+arm_math.h:  const arm_biquad_cas_df1_32x64_ins_q31 * S,
+arm_math.h:  const arm_biquad_cascade_df2T_instance_f32 * S,
+arm_math.h:  const arm_fir_lattice_instance_q15 * S,
+arm_math.h:  const arm_fir_lattice_instance_q31 * S,
+arm_math.h:  const arm_fir_lattice_instance_f32 * S,
+arm_math.h:  const arm_iir_lattice_instance_f32 * S,
+arm_math.h:  const arm_iir_lattice_instance_q31 * S,
+arm_math.h:  const arm_iir_lattice_instance_q15 * S,
+arm_math.h:  const arm_lms_instance_f32 * S,
+arm_math.h:  const arm_lms_instance_q15 * S,
+arm_math.h:  const arm_lms_instance_q31 * S,
+arm_math.h:   * where \c Kp is proportional constant, \c Ki is Integral constant and \c Kd is Derivative constant
+arm_math.h:   * Instance structure cannot be placed into a const data section and it is recommended to use the initialization function. 
+arm_math.h:  const arm_matrix_instance_f32 * src,
+arm_math.h:  const int32_t * src,
+arm_math.h:  const q15_t * src,
+arm_math.h:  const q7_t * src,
+arm_math.h:  const arm_bilinear_interp_instance_f32 * S,
+ChangeOver.cpp://const int DEBOUNCE_COUNT_REQUIRED = 3;	// Called from IRQ
+ChangeOver.cpp:const int DEBOUNCE_COUNT_REQUIRED = 30;	// Called from main()
+ChangeOver.cpp:	AGC_On = 0;  //Turn off AGC so that DAC is held constant during transmit
+ChangeOver.cpp:	AGC_On = 0;  //Turn off AGC so that DAC is held constant during transmit
+Codec_Gains.h:// Min/Max gain constants
+CW_Mod.cpp:// CW Wave form generation constants
+CW_Mod.cpp://	const char* message = "   --- ...";
+CW_Mod.cpp:	//const char* message = "   --- ... --- ... --- ... --- ... --- ... --- ... --- ... --- ... --- ... --- ...";
+CW_Mod.cpp:	const char* message = "   .... . .-.. .-.. --- / .-- --- .-. .-.. -.. / - .... .. ... / .. ... / .- / - . ... - / -- . ... ... .- --. . / .-- .... .. -.-. .... / .-- .. .-.. .-.. / -... . / -.-. --- -. ...- . .-. - . -.. / - --- / -- --- .-. ... . / -.-. --- -.. . .-.-.-";
+FrequencyManager.cpp:const static bandFilter s_defaultBandsData[8] = {
+gl_fonts.cpp:const uint16_t GL_ASCII16x24_Table [] PROGMEM =
+gl_fonts.cpp:const uint16_t GL_ASCII8x16_Table [] PROGMEM =
+gl_fonts.cpp:const uint16_t GL_ASCII12x12_Table [] PROGMEM =
+gl_fonts.cpp:const uint16_t GL_ASCII8x12_Table [] PROGMEM =
+gl_fonts.cpp:const uint16_t GL_ASCII8x8_Table [] PROGMEM =
+gl_fonts.cpp:const uint16_t GL_ASCII8x12_bold_Table[] PROGMEM =
+gl_fonts.h:  const uint16_t *table;
+gl_fonts.h:/* Exported constants --------------------------------------------------------*/
+graphicObject.cpp:static void GL_SetStringFieldValue(char* dBuf, const char* sBuf, uint32_t MaxLength);
+graphicObject.cpp:static void GL_SetStringFieldValue(char* dBuf, const char* sBuf, uint32_t MaxLength)
+graphicObject.cpp:GL_PageControls_TypeDef* NewLabel(uint16_t ID, const char* label, GL_Direction direction,
+graphicObject.cpp:GL_PageControls_TypeDef* NewButton(uint16_t ID, const char* label, void (*pEventHandler)(GL_PageControls_TypeDef* pThis))
+graphicObject.cpp:void ChangeButtonText(GL_Page_TypeDef* pPage, uint16_t ID, const char* label)
+graphicObject.cpp:	debug (GUI, (const char*)F("ChangeButtonText: \n"));
+graphicObject.cpp:GL_PageControls_TypeDef* NewCheckbox(uint16_t ID, const char* label, void (*pEventHandler)(void))
+graphicObject.cpp:GL_PageControls_TypeDef* AddRadioOption(GL_RadioButtonGrp_TypeDef* pThis, const char* label,
+graphicObject.cpp:GL_ErrStatus AddComboOption(GL_ComboBoxGrp_TypeDef* pThis, const char* label, void (*pEventHandler)(void))
+graphicObject.cpp:GL_PageControls_TypeDef* NewSwitch(uint16_t ID, const char* label_1, const char* label_2,
+graphicObject.cpp:GL_PageControls_TypeDef* NewIcon(uint16_t ID, const uint8_t* Image_PTR, uint16_t Width, uint8_t Height,
+graphicObject.cpp:GL_ErrStatus Set_Label(GL_Page_TypeDef* pPage, uint16_t ID, const char* label)
+graphicObject.cpp:static void GL_DrawButton(GL_Coordinate_TypeDef objCoordinates, uint8_t* pLeftBmp, uint8_t* pCenterBmp, uint8_t* pRightBmp, const char* pText)
+graphicObject.cpp:	const uint16_t BUTTON_TEXT_OFFSET_X = 5;
+graphicObject.cpp:	const uint16_t BUTTON_TEXT_OFFSET_Y = 5;
+graphicObject.cpp:const char* GetComboOptionLabel(GL_Page_TypeDef* pPage, uint16_t ID)
+graphicObject.cpp:GL_ErrStatus SetComboOptionLabel(GL_Page_TypeDef* pPage, uint16_t ID, const char* label)
+graphicObject.cpp:GL_ErrStatus SetIconImage(GL_Page_TypeDef* pPage, uint16_t ID, const uint8_t* pImage, uint16_t Width, uint8_t Height)
+graphicObject.cpp:	debug(GUI, (const char*)F("ShowPage:1\n"));
+graphicObject.cpp:		debug(GUI, (const char*)F("ShowPage:2\n"));
+graphicObject.cpp:	debug(GUI, (const char*)F("ShowPage:3\n"));
+graphicObject.cpp:		debug(GUI, (const char*)F("ShowPage:4\n"));
+graphicObject.cpp:			debug(GUI, (const char*)F("ShowPage:5 i=%d\n"), i);
+graphicObject.cpp:		debug(GUI, (const char*)F("ShowPage:6\n"));
+graphicObject.cpp:	debug(GUI, (const char*)F("ShowPage:7\n"));
+graphicObject.cpp:		debug (TOUCH, (const char*)F("Touch screen touched at X=%3d, Y=%3d (Raw X=%6d, Y=%6d).\n"), touchX, touchY, rawX, rawY);
+graphicObject.cpp:	debug (TOUCH, (const char*)F("CallEvent ObjType %d.\n"), static_cast<int>(pControl->objType));
+graphicObject.cpp:		debug (TOUCH, (const char*)F("Call EventHandler GL_CUSTOM. \n"));
+graphicObject.h:/* Exported constants --------------------------------------------------------*/
+graphicObject.h:GL_PageControls_TypeDef* NewButton (uint16_t ID, const char* label,
+graphicObject.h:GL_PageControls_TypeDef* NewCheckbox (uint16_t ID, const char* label,
+graphicObject.h:void ChangeButtonText(GL_Page_TypeDef* pPage, uint16_t ID, const char* label);
+graphicObject.h:GL_PageControls_TypeDef* NewSwitch (uint16_t ID, const char* label_1, const char* label_2,
+graphicObject.h:GL_PageControls_TypeDef* NewLabel (uint16_t ID, const char* label, GL_Direction direction,
+graphicObject.h:GL_ErrStatus Set_Label ( GL_Page_TypeDef* pPage, uint16_t ID, const char* label );
+graphicObject.h:GL_PageControls_TypeDef* NewSlidebar (uint16_t ID, const char* label,
+graphicObject.h:GL_PageControls_TypeDef* NewIcon (uint16_t ID, const uint8_t* Image_PTR,
+graphicObject.h:                          const uint8_t* pImage, uint16_t Width, uint8_t Height);
+graphicObject.h:GL_PageControls_TypeDef* NewHistogram (uint16_t ID, const char* labelX,
+graphicObject.h:                                       const char* labelY, int16_t data_points[],
+graphicObject.h:GL_PageControls_TypeDef* NewGraphChart (uint16_t ID, const char* labelX,
+graphicObject.h:                                        const char* labelY, int16_t data_points[],
+graphicObject.h:GL_PageControls_TypeDef* AddRadioOption (GL_RadioButtonGrp_TypeDef* pThis, const char* label, void (*pEventHandler)(void));
+graphicObject.h:GL_ErrStatus AddComboOption (GL_ComboBoxGrp_TypeDef* pThis, const char* label, void (*pEventHandler)(void));
+graphicObject.h:const char* GetComboOptionLabel(GL_Page_TypeDef* pPage, uint16_t ID);
+graphicObject.h:GL_ErrStatus SetComboOptionLabel(GL_Page_TypeDef* pPage, uint16_t ID, const char* label);
+graphicObjectTypes.h:  /* Exported constants --------------------------------------------------------*/
+graphicObjectTypes.h:  GL_PageControls_TypeDef* (*AddRadioOption)( GL_RadioButtonGrp_TypeDef* pThis, const char* label, void (*pEventHandler)(void) );
+graphicObjectTypes.h:  GL_ErrStatus              (*AddComboOption)( GL_ComboBoxGrp_TypeDef* pThis, const char* label, void (*pEventHandler)(void) );
+graphicObjectTypes.h:  const uint8_t*       ImagePTR;
+images.cpp:const uint8_t RButtonA[866] PROGMEM =
+images.cpp:const uint8_t RButtonB[866] PROGMEM =
+images.cpp:const uint8_t CheckBox1[866] PROGMEM =
+images.cpp:const uint8_t CheckBox2[866] PROGMEM =
+images.cpp:const uint8_t ArrowUpUntouched[1034] PROGMEM =
+images.cpp:const uint8_t ArrowUpTouched[1034] PROGMEM =
+images.cpp:const uint8_t ArrowDownUntouched[1034] PROGMEM =
+images.cpp:const uint8_t ArrowDownTouched[1034] PROGMEM =
+images.cpp:const uint8_t BtnNormalLeft[482] PROGMEM =
+images.cpp:const uint8_t BtnNormalRight[482] PROGMEM =
+images.cpp:const uint8_t BtnNormal[482] PROGMEM =
+images.cpp:const uint8_t BtnPressedLeft[482] PROGMEM =
+images.cpp:const uint8_t BtnPressedRight[482] PROGMEM =
+images.cpp:const uint8_t BtnPressed[482] PROGMEM =
+images.cpp:const uint8_t SwitchNormalLeft[482] PROGMEM =
+images.cpp:const uint8_t SwitchNormalRight[482] PROGMEM =
+images.cpp:const uint8_t SwitchNormal[482] PROGMEM =
+images.cpp:const uint8_t SwitchPressedLeft[482] PROGMEM =
+images.cpp:const uint8_t SwitchPressedRight[482] PROGMEM =
+images.cpp:const uint8_t SwitchPressed[482] PROGMEM =
+images.cpp:const uint8_t SlidebarLeft[210] PROGMEM =
+images.cpp:const uint8_t SlidebarRight[210] PROGMEM =
+images.cpp:const uint8_t SlidebarCentral[210] PROGMEM =
+images.cpp:const uint8_t SlidebarCursor[306] PROGMEM =
+images.h:/* Exported constants --------------------------------------------------------*/
+images.h:extern const uint8_t RButtonA[866];            /*!< radio button bitmap table */
+images.h:extern const uint8_t RButtonB[866];            /*!< radio button bitmap table */
+images.h:extern const uint8_t CheckBox1[866];           /*!< CheckBox bitmap table 1 */
+images.h:extern const uint8_t CheckBox2[866];           /*!< CheckBox bitmap table 2 */
+images.h:extern const uint8_t ArrowUpTouched[1034];     /*!< ArrowUp Touched bitmap table */
+images.h:extern const uint8_t ArrowUpUntouched[1034];   /*!< ArrowUp Untouched bitmap table */
+images.h:extern const uint8_t ArrowDownTouched[1034];   /*!< ArrowDown Touched bitmap table */
+images.h:extern const uint8_t ArrowDownUntouched[1034]; /*!< ArrowDown Untouched bitmap table */
+images.h:extern const uint8_t BtnNormalLeft[482];       /*!< Normal Button left part bitmap table */
+images.h:extern const uint8_t BtnNormalRight[482];      /*!< Normal Button right part bitmap table */
+images.h:extern const uint8_t BtnNormal[482];           /*!< Normal Button centre part bitmap table */
+images.h:extern const uint8_t BtnPressedLeft[482];      /*!< Pressed Button left part bitmap table */
+images.h:extern const uint8_t BtnPressedRight[482];     /*!< Pressed Button right part bitmap table */
+images.h:extern const uint8_t BtnPressed[482];          /*!< Pressed Button centre part bitmap table */
+images.h:extern const uint8_t SwitchNormalLeft[482];    /*!< Normal Switch left part bitmap table */
+images.h:extern const uint8_t SwitchNormalRight[482];   /*!< Normal Switch right part bitmap table */
+images.h:extern const uint8_t SwitchNormal[482];        /*!< Normal Switch centre part bitmap table */
+images.h:extern const uint8_t SwitchPressedLeft[482];   /*!< Pressed Switch left part bitmap table */
+images.h:extern const uint8_t SwitchPressedRight[482];  /*!< Pressed Switch right part bitmap table */
+images.h:extern const uint8_t SwitchPressed[482];       /*!< Pressed Switch centre part bitmap table */
+images.h:extern const uint8_t SlidebarLeft[210];        /*!< Slidebar Left part bitmap table */
+images.h:extern const uint8_t SlidebarRight[210];       /*!< PSlidebar Right centre part bitmap table */
+images.h:extern const uint8_t SlidebarCentral[210];     /*!< Slidebar Central part bitmap table */
+images.h:extern const uint8_t SlidebarCursor[306];      /*!< Slidebar Cursor part bitmap table */
+LcdHal.cpp:void GL_PrintString(uint16_t x, uint16_t y, const char *str, _Bool isTransparent)
+LcdHal.cpp:	const char FONT_DATA_OFFEST = ' ';
+LcdHal.cpp:	const uint16_t *pData = &g_pCurrentFont->table[firstRowOffset];
+LcdHal.cpp:void LCD_StringLine(uint16_t PosX, uint16_t PosY, const char *str)
+LcdHal.cpp:void GL_DrawBMP16Bit(int x, int y, int height, int width, const uint16_t* pBitmap, _Bool revByteOrder)
+LcdHal.h:void LCD_StringLine(uint16_t PosX, uint16_t PosY, const char *str);
+LcdHal.h:void GL_PrintString(uint16_t x, uint16_t y, const char *str, _Bool isTransparent);
+LcdHal.h:void GL_DrawBMP16Bit(int x, int y, int height, int width, const uint16_t* pBitmap, _Bool revByteOrder);
+main.h:/* Exported constants --------------------------------------------------------*/
+misc.h:/* Exported constants --------------------------------------------------------*/
+ModeSelect.cpp:	const char*        Name;
+ModeSelect.cpp:	const char*        Description;
+ModeSelect.cpp:	const UserModeType UserMode;
+ModeSelect.cpp:	const ModeType     Mode;
+ModeSelect.cpp:	const SideBandType SideBand;
+ModeSelect.cpp:	const double	   DefaultNCO;
+ModeSelect.cpp:const char* Mode_GetCurrentUserModeName(void)
+ModeSelect.cpp:const char* Mode_GetCurrentUserModeDescription(void)
+ModeSelect.cpp:const char* Mode_GetUserModeName(int userMode)
+ModeSelect.cpp:const char* Mode_GetUserModeDescription(int userMode)
+ModeSelect.h:	// Start at a "strange" offset to differentiate from other constants.
+ModeSelect.h:	SIDEBAND_USB = 321,	// Strange offset to differentiate from other constants.
+ModeSelect.h:const char* Mode_GetCurrentUserModeName(void);
+ModeSelect.h:const char* Mode_GetCurrentUserModeDescription(void);
+ModeSelect.h:const char* Mode_GetUserModeName(int userMode);
+ModeSelect.h:const char* Mode_GetUserModeDescription(int userMode);
+options.cpp:	const char* Name;
+options.cpp:	const int16_t Initial;
+options.cpp:	const int16_t Minimum;
+options.cpp:	const int16_t Maximum;
+options.cpp:	const int16_t ChangeUnits;
+options.cpp:const char* Options_GetName(int optionIdx)
+options.h:const char* Options_GetName(int optionIdx);
+PSK_Det.cpp:/* define some constants  */
+PSK_Det.cpp:#define NLP_K (100.0)		/*narrow phase derived afc constans  */
+PSK_Det.cpp:#define P_GN 0.001			/*AFC constants  */
+PSKDet.h:extern const int Sine_table[4096];
+PSKMod.cpp:#define SYM_ON 5		/*constant output */
+PSKMod.cpp:extern const unsigned int VARICODE_TABLE[256];
+PSKMod.cpp:	extern const int PSKPhaseLookupTable[6][5];
+PSKMod.cpp:	extern const float PSKShapeTbl[2049];
+PSK_Tables.h:const int HALF_TBL[16] = {
+PSK_Tables.h:const unsigned int VARICODE_TABLE[256] = {
+PSK_TX_ShapeTable.h:const float PSKShapeTbl[2049] = { /* PSKShapeTbl_Z */
+PSK_TX_ShapeTable.h:	const int PSKPhaseLookupTable [6][5] =
+ScrollingTextBox.cpp:const char BLANK = ' ';
+sdrdude.ino:const uint32_t CODEC_FREQUENCY = 8000;
+sdrdude.ino:const PROGMEM 
+sdrdude.ino:	const int SETUP_DELAY = 100;
+sdr_image.c:const struct {
+sdr_image.h:extern const struct {
+Si570.cpp:unsigned const char HS_DIV_VALUE_char[6] = { 4, 5, 6, 7, 9, 11 };
+Si570.cpp:unsigned const char N1_VALUE_char[2] = { 2, 1 };
+Si570.h:extern unsigned const char HS_DIV_VALUE_char[6];
+Text_Enter.cpp:const char* Text_GetName(int TextIdx)
+Text_Enter.cpp:const char* Text_GetText(int TextIdx)
+Text_Enter.h:const char* Text_GetName(int TextIdx);
+TSHal.cpp:static const CalibrationPoint s_touchTargets[] = {
+TSHal.cpp: * Compute calibration constants
+uart2.cpp_:const uint32_t COM2_UART_CLK = RCC_APB1Periph_UART4;
+uart2.cpp_:const uint32_t COM2_TX_PORT_CLK = RCC_AHB1Periph_GPIOA;
+uart2.cpp_:const uint32_t COM2_RX_PORT_CLK = RCC_AHB1Periph_GPIOA;
+uart2.cpp_:const uint16_t COM2_TX_PIN = GPIO_Pin_0;
+uart2.cpp_:const uint16_t COM2_RX_PIN = GPIO_Pin_1;
+uart2.cpp_:const uint16_t COM2_TX_PIN_SOURCE = GPIO_PinSource0;
+uart2.cpp_:const uint16_t COM2_RX_PIN_SOURCE = GPIO_PinSource1;
+uart2.cpp_:const uint16_t COM2_TX_AF = GPIO_AF_UART4;
+uart2.cpp_:const uint16_t COM2_RX_AF = GPIO_AF_UART4;
+uart.cpp_://const uint32_t COM_USART_CLK = RCC_APB1Periph_USART2;
+uart.cpp_://const uint32_t COM_TX_PORT_CLK = RCC_AHB1Periph_GPIOA;
+uart.cpp_://const uint32_t COM_RX_PORT_CLK = RCC_AHB1Periph_GPIOA;
+uart.cpp_://const uint16_t COM_TX_PIN = GPIO_Pin_2;
+uart.cpp_://const uint16_t COM_RX_PIN = GPIO_Pin_3;
+uart.cpp_://const uint16_t COM_TX_PIN_SOURCE = GPIO_PinSource2;
+uart.cpp_://const uint16_t COM_RX_PIN_SOURCE = GPIO_PinSource3;
+uart.cpp_://const uint16_t COM_TX_AF = GPIO_AF_USART2;
+uart.cpp_://const uint16_t COM_RX_AF = GPIO_AF_USART2;
+widget_BigButton.cpp:	const char* strTitle;
+widget_BigButton.cpp:		const char* strTitle,
+widget_FFTDisplay.cpp:static const int FFT_WIDTH   = 400;		//240;
+widget_FFTDisplay.cpp:static const int FFT_HEIGHT  =  64;
+widget_FFTDisplay.cpp:static const int SELFREQ_ADJ =   4;
+widget_FFTDisplay.cpp:static const int CHARACTER_WIDTH = 8;
+widget_FFTDisplay.cpp:static const int MAX_FREQ_DIGITS = 5;
+widget_FFTDisplay.cpp:static const int SMETER_HEIGHT = 8;
+widget_FFTDisplay.cpp:static const int MAX_WF_COUNT = 2;
+widget_FFTDisplay.cpp:	// TODO: Remove hard-coded numbers? Change to constants?
+widget_FFTDisplay.h:const int WFPalette[64] = {
+widget_Label.cpp:		const char* strText,
+widget_Label.cpp:void Widget_ChangeLabelText(GL_PageControls_TypeDef *pThis, const char* strText)
+widgets.h:		const char* strTitle,
+widgets.h:void Widget_ChangeButtonText(GL_PageControls_TypeDef *pThis, const char* strText);
+widgets.h:		const char* strText,
+widgets.h:void Widget_ChangeLabelText(GL_PageControls_TypeDef *pThis, const char* strText);
+xprintf.cpp:static void xvprintf(const char* fmt, /* Pointer to the format string */
+xprintf.cpp:		const char* fmt, /* Pointer to the format string */
+xprintf.cpp:		const char* str /* Pointer to the string */
+xprintf.cpp:		const char* str /* Pointer to the string */
+xprintf.cpp:void xvprintf(const char* fmt, /* Pointer to the format string */
+xprintf.cpp:		const char* fmt, /* Pointer to the format string */
+xprintf.cpp:		const char* fmt, /* Pointer to the format string */
+xprintf.cpp:		const char* fmt, /* Pointer to the format string */
+xprintf.cpp:void put_dump(const void* buff, /* Pointer to the array to be dumped */
+xprintf.cpp:	const unsigned char *bp;
+xprintf.cpp:	const unsigned short *sp;
+xprintf.cpp:	const unsigned long *lp;
+xprintf.cpp:		bp = (const unsigned char*)buff;
+xprintf.cpp:		sp = (const unsigned short*)buff;
+xprintf.cpp:		lp = (const unsigned long*)buff;
+xprintf.h:void xputs(const char* str);
+xprintf.h:void xfputs(void (*func)(unsigned char), const char* str);
+xprintf.h:void xprintf(const char* fmt, ...);
+xprintf.h:void xsprintf(char* buff, const char* fmt, ...);
+xprintf.h:void xfprintf(void (*func)(unsigned char), const char* fmt, ...);
+xprintf.h:void put_dump(const void* buff, unsigned long addr, int len, int width);
+xprintf.h:void debug (int debug_code,	const char* fmt, ... );
+yprintf.cpp:static void yvprintf(const char* fmt, /* Pointer to the format string */
+yprintf.cpp:		const char* str /* Pointer to the string */
+yprintf.cpp:		const char* str /* Pointer to the string */
+yprintf.cpp:void yvprintf(const char* fmt, /* Pointer to the format string */
+yprintf.cpp:		const char* fmt, /* Pointer to the format string */
+yprintf.cpp:		const char* fmt, /* Pointer to the format string */
+yprintf.cpp:		const char* fmt, /* Pointer to the format string */
+yprintf.cpp:void yput_dump(const void* buff, /* Pointer to the array to be dumped */
+yprintf.cpp:	const unsigned char *bp;
+yprintf.cpp:	const unsigned short *sp;
+yprintf.cpp:	const unsigned long *lp;
+yprintf.cpp:		bp = (const unsigned char *)buff;
+yprintf.cpp:		sp = (const unsigned short *)buff;
+yprintf.cpp:		lp = (const unsigned long *)buff;
+yprintf.h:void yputs(const char* str);
+yprintf.h:void yfputs(void (*func)(unsigned char), const char* str);
+yprintf.h:void yprintf(const char* fmt, ...);
+yprintf.h:void ysprintf(char* buff, const char* fmt, ...);
+yprintf.h:void yfprintf(void (*func)(unsigned char), const char* fmt, ...);
+yprintf.h:void yput_dump(const void* buff, unsigned long addr, int len, int width);

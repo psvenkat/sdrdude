@@ -35,6 +35,8 @@
 #define OFFSETY_TITLE  BORDER_WIDTH
 #define OFFSETX_TITLE  (BORDER_WIDTH + TEXT_WIDTH_PER_CHAR)
 
+static int nMalloc;
+static uint32_t sizeMalloc;
 
 typedef struct {
 	const char* strTitle;
@@ -77,6 +79,8 @@ GL_PageControls_TypeDef* Widget_NewBigButton(
 {
 	// Instance data for *this* button being created.
 	BigButtonData *pInstanceData = (BigButtonData*) malloc(sizeof(BigButtonData));
+	nMalloc++;
+	sizeMalloc+=sizeof(BigButtonData);
 	pInstanceData->strTitle = strTitle;
 	pInstanceData->insideHegiht = insideHeight;
 	pInstanceData->insideWidth = insideWidth;

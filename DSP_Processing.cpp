@@ -66,6 +66,8 @@ q15_t FFT_Magnitude[512]; //512 sampling
 
 long FFT_Mag_10[256];
 
+uint16_t armBitRevTable[256]; 	//PSV  just to keep the compiler happy
+
 uint16_t FFT_Size = 512;  // change for 512 sampling
 uint8_t FFT_status;
 
@@ -78,10 +80,12 @@ q15_t FIR_State_Q[NUM_FIR_COEF + (BUFFERSIZE / 2) - 1];
 
 q15_t ADC_Buffer[BUFFERSIZE / 2];  //for 1024 sampling
 
-arm_cfft_radix2_instance_q15 S_CFFT;
+//* PSV	arm_cfft_radix2_instance_q15 S_CFFT;
+arm_cfft_radix4_instance_q15 S_CFFT;
 
 void init_DSP(void) {
-	FFT_status = arm_cfft_radix2_init_q15(&S_CFFT, FFT_Size, 0, 1);
+//** PSV	FFT_status = arm_cfft_radix2_init_q15(&S_CFFT, FFT_Size, 0, 1);
+	FFT_status = arm_cfft_radix4_init_q15(&S_CFFT, FFT_Size, 0, 1);
 }
 
 
@@ -132,7 +136,8 @@ void Sideband_Demod(void)
 void Process_FFT(void)
 {
 	//Execute complex FFT
-	arm_cfft_radix2_q15(&S_CFFT, &FFT_Input[0]);
+//** PSV	arm_cfft_radix2_q15(&S_CFFT, &FFT_Input[0]);
+	arm_cfft_radix4_q15(&S_CFFT, &FFT_Input[0]);
 	//Shift FFT data to compensate for FFT scaling
 	arm_shift_q15(&FFT_Input[0], 6, &FFT_Scale[0], 512 );
 	//Calculate the magnitude squared of FFT results ( i.e., power level)
