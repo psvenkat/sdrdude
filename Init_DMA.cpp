@@ -42,8 +42,8 @@ int16_t Tx1BufferDMA[BUFFERSIZE];
 extern volatile int16_t DSP_Flag;
 extern volatile int16_t AGC_Flag;
 
-uint32_t DMA_RX_Memory;
-uint32_t DMA_TX_Memory;
+uint8_t DMA_RX_Memory;
+uint8_t DMA_TX_Memory;
  
 volatile bool l0, l1;
 
@@ -57,7 +57,7 @@ void setup_DAC_Timer();
   
 void setup_pio_TIOA0 ();
 
-void Audio_DMA_Init__(void)
+void Audio_DMA_Init(void)
 {
   adc_setup () ;         // setup ADC
 
@@ -154,11 +154,11 @@ void dac_setup ()
 
 void DACC_Handler() {   //DACC_ISR_HANDLER
   if (DMA_TX_Memory == 0){
-    //DACC->DACC_TNPR = (uint32_t)Tx0BufferDMA;
+    DACC->DACC_TNPR = (uint32_t)Tx0BufferDMA;
     DMA_TX_Memory = 1;
   }
   else {
-    //DACC->DACC_TNPR = (uint32_t)Tx1BufferDMA;
+    DACC->DACC_TNPR = (uint32_t)Tx1BufferDMA;
     DMA_TX_Memory = 0;
   }
 
@@ -222,11 +222,11 @@ void ADC_Handler ()
   {
     uint32_t val;
     val = *(ADC->ADC_CDR+0) ;    // get conversion result
-    dac_write (0xFFF & ~val) ;       // copy inverted to DAC output FIFO
+    //dac_write (0xFFF & ~val) ;   // copy inverted to DAC output FIFO
   }
  
   if (ADC->ADC_ISR &(1<<27)){     //Its ENDRX
-    //switchRxDMABuffer();
+    switchRxDMABuffer();
     DSP_Flag = 1;
     AGC_Flag = 1;
     ADC->ADC_RNCR=BUFFERSIZE;
@@ -238,7 +238,7 @@ void ADC_Handler ()
 
 void Audio_DMA_Start(void)
 {
-
+	Audio_DMA_Init();
 }
 #ifdef __cplusplus
 }

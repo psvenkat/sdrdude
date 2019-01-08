@@ -90,6 +90,8 @@ double m_AFCmax;
 double m_AFCmin;
 double m_NLPk;
 double NCO_Frequency;
+float Sample_Frequency;		//** PSV made it global
+
 
 struct Complex m_FreqSignal;
 struct Complex m_BitSignal;
@@ -144,7 +146,7 @@ void ResetModem(int mode)
 void CPSKInitDet(void)
 {
 	NCO_Frequency = 2000;  //chh temporary test value
-	float Sample_Frequency = 8000.0;
+	Sample_Frequency = 8000.0;
 	m_SampleClkAdj = 0;
 	m_IQPhzIndex = 0;
 	m_IMDValid = FALSE;
@@ -165,7 +167,6 @@ void InitPSK(int Fs)
 {
 	unsigned int wTemp;
 	int i;
-	extern float Sample_Frequency;
 	int j;
 	Sample_Frequency = Fs;
 	for (j = 0; j < 2048; j++) /* init inverse varicode lookup decoder table */
@@ -226,7 +227,7 @@ void InitPSK(int Fs)
 /* ////////////////////////////////////////////////////////////////////  */
 void SetSampleClkAdj(int ppm)
 {
-	extern float Sample_Frequency;
+	//extern float Sample_Frequency;		**PSV its global now
 	extern double NCO_Frequency;  //chh added extern
 	m_SampleClkAdj = (Sample_Frequency * ppm) / 1000000;
 	m_SampleFreq = (double) (Sample_Frequency + m_SampleClkAdj); /*adj sample rate */
@@ -311,7 +312,7 @@ void ResetDetector(void)
 /* ////////////////////////////////////////////////////////////////////  */
 void ProcPSKDet()
 {
-	extern float Sample_Frequency;
+	//extern float Sample_Frequency;	**PSV global now
 	extern double NCO_Frequency;
 	extern double m_NCOphzinc;
 	int i;

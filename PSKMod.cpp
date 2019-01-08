@@ -26,6 +26,7 @@
 
 #include 	"PSKDet.h"
 #include 	"PSKMod.h"
+#include 	"PSK_Tables.h"		//PSV add
 #include 	"PSK_TX_ShapeTable.h"
 #include	"SDR_Subroutines.h"
 #include	"xprintf.h"

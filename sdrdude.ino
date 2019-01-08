@@ -99,6 +99,8 @@ static void main_delay(uint32_t numLoops);
 static void displayLoadStationData(void);
 static void showMemUsage();
 char testMode = 'p';
+bool DSP = 0;
+#define DSPLED  34
 
 /*
  * FUNCTIONS
@@ -145,15 +147,20 @@ void setup()
 	//send initialization to serial control port
 //**	uart2_initSerial();
 
-    showMemUsage();
+  showMemUsage();
+
+  debug(INIT, "initializeHardware:Audio_DMA_Start\n");
+  //Audio_DMA_Start();      
+  showMemUsage();
 
 }
 
 void loop() {
 		// Check if encoder-knobs have changed:
-     
+
      Encoders_CalculateAndProcessChanges();
 
+/***PSV speed test     
 		if (NCO_Flag){
 			if (--NCOTuneCount <= 0){
 				NCO_Flag = 0;
@@ -176,24 +183,36 @@ void loop() {
 //
 		// Polling tasks:
 		RxTx_CheckAndHandlePTT();
-//
+
 		// Redraw the screen (as needed)
+    //***PSV DMA init is not done force DSP_Flag=1
+    DSP_Flag=1;
+    AGC_Flag=1;
+    
 		if (DSP_Flag == 1) {
       //GPIO_WriteBit(Test_GPIO, Test_1, Bit_SET);
-//PSV			Process_All_DSP();
-			UpdateScreenWithChanges();
+			Process_All_DSP();
+			//speed test UpdateScreenWithChanges();
 
       //GPIO_WriteBit(Test_GPIO, Test_1, Bit_RESET);
 			DSP_Flag = 0;
 		}
+    digitalWrite(DSPLED, DSP=!DSP);
+speed test ***/
 
+    ProcessInputData();
+    Screen_Update();
+    UpdateScreenWithChanges();  //Iterate thru all 
+    digitalWrite(DSPLED, DSP=!DSP);
+
+/**PSV speed test
 		if (AGC_Flag == 1) {
 			Proc_AGC();
 		}
 		Screen_Update(); //see if button is pressed
     UpdateScreenWithChanges();  //Iterate thru all 
     //testChangeMode();
- 
+speed test ***/ 
 }
 
 /**PSV
@@ -379,14 +398,9 @@ static void initializeHardware(void)
 	debug(INIT, "initializeHardware:init_DSP\n");
 	init_DSP();
   
-	main_delay(SETUP_DELAY);
-	debug(INIT, "initializeHardware:Audio_DMA_Start\n");
-  //Get everything up and running before starting DMA Interrupt
-  // Need 8K mem for this
-	Audio_DMA_Start();			
-	main_delay(SETUP_DELAY);
   showMemUsage();
-  
+
+	main_delay(SETUP_DELAY);
 	debug(INIT, "initializeHardware:GPIO_BandFilterInit\n");
 	GPIO_BandFilterInit();
 

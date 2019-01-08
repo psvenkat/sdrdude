@@ -108,7 +108,7 @@ _Bool TS_HasNewTouchEvent(void)
     bool state, oldstate;
     while (count < 10) {
         readResistiveTouch();
-        state = tp.z > 20;
+        state = tp.z > 40;
         if (state == oldstate) count++;
         else count = 0;
         oldstate = state;

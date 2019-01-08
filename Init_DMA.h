@@ -21,16 +21,12 @@
 
 //This Buffer size is set to support a 256 bin FFT. The I/Q data is held in a single buffer
 // and the data is interleaved in the form (real0, imag0, real1, imag1, real2, imag2....etc)
+// change for 512 sampling
 
-#define BUFFERSIZE		1024  // change for 512 sampling
+#define BUFFERSIZE		512
+#define	FFTLEN		BUFFERSIZE/2  
+
 #include	"arm_math.h"
-
-/*
-extern int16_t Rx0BufferDMA[BUFFERSIZE];
-extern int16_t Tx0BufferDMA[BUFFERSIZE];
-extern int16_t Rx1BufferDMA[BUFFERSIZE];
-extern int16_t Tx1BufferDMA[BUFFERSIZE];
-*/
 
 #ifdef __cplusplus
 extern "C" {
