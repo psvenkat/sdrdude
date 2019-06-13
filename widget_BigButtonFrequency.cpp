@@ -140,7 +140,8 @@ static void insideDrawHandler(GL_PageControls_TypeDef* pThis, _Bool force, int r
 	if (redrawFreq) {
 		GL_SetFont(GL_FONTOPTION_8x12Bold);
 		GL_SetTextColor(BIGBUTTON_COLOR_EDIT_TEXT);
-		GL_SetBackColor(BIGBUTTON_COLOR_EDIT_BACK);
+		//GL_SetBackColor(BIGBUTTON_COLOR_EDIT_BACK);
+		GL_SetBackColor(BIGBUTTON_COLOR_BORDER);
 
 		int writeX = relX + OFFSETX_TEXT;
 		int writeY = relY + OFFSETY_FREQ;

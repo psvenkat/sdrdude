@@ -59,7 +59,7 @@ void setup_pio_TIOA0 ();
 
 void Audio_DMA_Init(void)
 {
-  adc_setup () ;         // setup ADC
+  adc_setup () ;         // setup ADC (causes Touch event?)
 
   dac_setup () ;        // setup up DAC auto-triggered at 48kHz
 
@@ -68,6 +68,7 @@ void Audio_DMA_Init(void)
   setup_DAC_Timer();
   
   setup_pio_TIOA0 () ;  // drive Arduino pin 2 at 48kHz to bring clock out
+
 }
 
 void setup_ADC_Timer()
@@ -116,8 +117,8 @@ void setup_DAC_Timer()
 
 void setup_pio_TIOA0 ()  // Configure Ard pin 2 as output from TC0 channel A (copy of trigger event)
 {
-  PIOB->PIO_PDR = PIO_PB25B_TIOA0 ;  // disable PIO control
-  PIOB->PIO_IDR = PIO_PB25B_TIOA0 ;   // disable PIO interrupts
+  //PIOB->PIO_PDR = PIO_PB25B_TIOA0 ;  // disable PIO control
+  //PIOB->PIO_IDR = PIO_PB25B_TIOA0 ;  // disable PIO interrupts -- This will disable LCD too
   PIOB->PIO_ABSR |= PIO_PB25B_TIOA0 ;  // switch to B peripheral
 }
 
@@ -182,14 +183,16 @@ void adc_setup ()
   //ADC->ADC_IER = 0x1001 ;         // enable EOC intr on AD7, A12
   //ADC->ADC_IER = 0x0001 ;         // enable EOC intr on AD7, A06
   ADC->ADC_CHDR = 0xFFFF ;      // disable all channels
-  ADC->ADC_CHER = 0x0003 ;        // enable just A0, A1
+  return;			// LCD ok, Touch ok
+
+  ADC->ADC_CHER = 0x0003 ;    // enable just A0, A1, this will mess up Touch
   ADC->ADC_CGR = 0x15555555 ;   // All gains set to x1
   ADC->ADC_COR = 0x00000000 ;   // All offsets off
+  //return;			// LCD ok, but spurious Touch
 
-  // 1 = trig source TIO from TC0 
+  // 1 = trig source TIO from TC0, 2 = TC1, 3=TC2 
   ADC->ADC_MR = 0x12110000 | (1 << 1) | ADC_MR_TRGEN;
   ADC->ADC_EMR = ADC_EMR_TAG;
-
   //Enable PDC and setup buffers
   ADC->ADC_IER |=1<<27;           //INTR endrx
   ADC->ADC_RPR=(uint32_t)Rx0BufferDMA;  // DMA buffer
@@ -197,6 +200,7 @@ void adc_setup ()
   ADC->ADC_RNPR=(uint32_t)Rx1BufferDMA; // next DMA buffer
   ADC->ADC_RNCR=BUFFERSIZE;
   DMA_RX_Memory = 0;
+  //return;			// Touch dead, no spurious
   ADC->ADC_PTCR=1;                //Enable Transfer Control
   
   Serial.print("ADC_MR= "); Serial.println(ADC->ADC_MR, HEX);
@@ -204,7 +208,6 @@ void adc_setup ()
 }
 
 volatile int isr_count = 0 ;   // this was for debugging
-
 void switchRxDMABuffer(){
     if (DMA_RX_Memory == 0){
       ADC->ADC_RNPR = (uint32_t)Rx0BufferDMA;
@@ -243,4 +246,3 @@ void Audio_DMA_Start(void)
 #ifdef __cplusplus
 }
 #endif
-

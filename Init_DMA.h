@@ -23,7 +23,7 @@
 // and the data is interleaved in the form (real0, imag0, real1, imag1, real2, imag2....etc)
 // change for 512 sampling
 
-#define BUFFERSIZE		512
+#define BUFFERSIZE	512
 #define	FFTLEN		BUFFERSIZE/2  
 
 #include	"arm_math.h"

@@ -19,8 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#define BUFFERSIZE		1024  // change for 512 sampling
-
 void DMA1_Stream0_IRQHandler(void);
 void Process_All_DSP(void);
 void Rcvr_DSP(void);
@@ -30,13 +28,14 @@ void Xmit_PSK(void);
 
 extern volatile int16_t DSP_Flag;
 extern volatile int16_t AGC_Flag;
-extern uint32_t DMA_RX_Memory;
-extern uint32_t DMA_TX_Memory;
+extern uint8_t DMA_RX_Memory;
+extern uint8_t DMA_TX_Memory;
+/*
 extern int16_t Rx0BufferDMA[BUFFERSIZE];
 extern int16_t Tx0BufferDMA[BUFFERSIZE];
 extern int16_t Rx1BufferDMA[BUFFERSIZE];
 extern int16_t Tx1BufferDMA[BUFFERSIZE];
-
+*/
 extern float rgain;
 extern float R_lgain;
 extern float R_xgain;

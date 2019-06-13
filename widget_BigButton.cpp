@@ -35,8 +35,8 @@
 #define OFFSETY_TITLE  BORDER_WIDTH
 #define OFFSETX_TITLE  (BORDER_WIDTH + TEXT_WIDTH_PER_CHAR)
 
-static int nMalloc;
-static uint32_t sizeMalloc;
+extern int nMalloc;
+extern uint32_t sizeMalloc;
 
 typedef struct {
 	const char* strTitle;

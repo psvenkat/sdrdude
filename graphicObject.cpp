@@ -42,8 +42,8 @@
  */
 
 /* External variables --------------------------------------------------------*/
-static int nMalloc;
-static uint32_t sizeMalloc;
+extern int nMalloc;
+extern uint32_t sizeMalloc;
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private defines -----------------------------------------------------------*/
@@ -121,6 +121,7 @@ static void CallRedrawPageControlOpportunity(GL_PageControls_TypeDef* pControl);
 /**
  * @}
  */
+void waitForInput();
 
 /* Private functions ---------------------------------------------------------*/
 /** @defgroup graphicObject_Private_Functions
@@ -2200,19 +2201,24 @@ GL_ErrStatus ShowPage(GL_Page_TypeDef* pPage, GL_bool bVal)
 	debug(GUI, (const char*)F("ShowPage:1\n"));
 	uint32_t i = 0;
 	if (!pPage) {
+		debug(GUI, (const char*)F("ShowPage:GL_ERROR\n"));
 		return GL_ERROR;
-		debug(GUI, (const char*)F("ShowPage:2\n"));
 	}
 	pPage->Page_Visible = bVal;
 	pPage->SetPage(pPage, bVal);
 	debug(GUI, (const char*)F("ShowPage:3\n"));
 	if (bVal == GL_TRUE) {
 		debug(GUI, (const char*)F("ShowPage:4\n"));
+		GL_Clear(GL_BLACK); //**PSV
+
 		while (i < pPage->ControlCount) /* search for the required button */
 		{
 			debug(GUI, (const char*)F("ShowPage:5 i=%d\n"), i);
 			pPage->PageControls[i]->SetObjVisible(pPage->PageControls[i], pPage->PageControls[i]->objCoordinates);
 			i++;
+		
+			waitForInput();	//**PSV
+
 		}
 	}
 	else {
@@ -2221,6 +2227,8 @@ GL_ErrStatus ShowPage(GL_Page_TypeDef* pPage, GL_bool bVal)
 	}
 	pPage->SetPage(pPage, bVal);
 	debug(GUI, (const char*)F("ShowPage:7\n"));
+
+	waitForInput();	//**PSV
 
 	return GL_OK;
 }
@@ -2644,5 +2652,9 @@ void TimingDelay_Decrement(void)
  * @}
  */
 
+void waitForInput() {
+	//debug(GUI, (const char*)F("Waiting for input\n"));
+	//while (Serial.read()<0);
+}
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
 

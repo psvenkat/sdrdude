@@ -78,10 +78,11 @@ extern "C" char *sbrk(int i);
 char *ramstart=(char *)0x20070000;
 char *ramend=(char *)0x20088000;
 
-const uint32_t CODEC_FREQUENCY = 8000;
+int nMalloc;
+uint32_t sizeMalloc;
+int lastNMalloc = 0;
 
-const PROGMEM 
-uint32_t fill[8000] = {0,0,0};
+const uint32_t CODEC_FREQUENCY = 8000;
 
 /**PSV
 // USB structures (Must be 4-byte aligned if DMA active)
@@ -98,10 +99,12 @@ static void displaySerialPortWelcome(void);
 static void main_delay(uint32_t numLoops);
 static void displayLoadStationData(void);
 static void showMemUsage();
+static void showMallocStats();
+
 char testMode = 'p';
 bool DSP = 0;
 #define DSPLED  34
-
+uint8_t loopCnt = 0;
 /*
  * FUNCTIONS
  */
@@ -120,13 +123,10 @@ void setup()
   //xdev_out(Serial.write());
   
   Serial.println("Mem 1");
-    //String(pgm_read_word_near(fill+1))); 
-    //String(fill[0]));
   showMemUsage();
 
 	initializeHardware();
 
-  //uint16_t x = pgm_read_word(fill[1]);
 	/*
 	 * Startup the GUI
 	 */
@@ -135,6 +135,7 @@ void setup()
 	Screen_CreateAllScreens();
   Serial.println("Mem 3");
   showMemUsage();
+  showMallocStats();
   
 	if (!TS_IsCalibrated()) {
 		Screen_ShowScreen(&g_screenCalibrate);
@@ -150,9 +151,10 @@ void setup()
   showMemUsage();
 
   debug(INIT, "initializeHardware:Audio_DMA_Start\n");
-  //Audio_DMA_Start();      
+  Audio_DMA_Start();      
   showMemUsage();
 
+  showMallocStats();
 }
 
 void loop() {
@@ -168,9 +170,10 @@ void loop() {
 				Acquire();
 			}
 		}
-
+**/
 		// Check encoder 2 push button
 		process_button();
+
 
 		// Process any pending PS2 events
 		//ps2Read();
@@ -179,32 +182,39 @@ void loop() {
 //		USBH_Process(&USB_OTG_Core_dev, &USB_Host);
 //
 	  // Touch Events
-    ProcessInputData();
-//
+    //ProcessInputData();
+
 		// Polling tasks:
 		RxTx_CheckAndHandlePTT();
 
 		// Redraw the screen (as needed)
-    //***PSV DMA init is not done force DSP_Flag=1
-    DSP_Flag=1;
-    AGC_Flag=1;
-    
+    //force DSP_Flag=1
+    //DSP_Flag=1;
+    //AGC_Flag=1;
+    /***PSV
 		if (DSP_Flag == 1) {
       //GPIO_WriteBit(Test_GPIO, Test_1, Bit_SET);
 			Process_All_DSP();
-			//speed test UpdateScreenWithChanges();
+			//speed test 
+			UpdateScreenWithChanges();  //  **PSV this updates FFT and other data
 
       //GPIO_WriteBit(Test_GPIO, Test_1, Bit_RESET);
 			DSP_Flag = 0;
 		}
     digitalWrite(DSPLED, DSP=!DSP);
-speed test ***/
-
-    ProcessInputData();
+    **/
+    ProcessInputData();   //Read Touch input
     Screen_Update();
     UpdateScreenWithChanges();  //Iterate thru all 
     digitalWrite(DSPLED, DSP=!DSP);
 
+    showMallocStats();
+
+    //is alive 
+    if (++loopCnt == 20) {
+      Serial.println("end of loop");
+      loopCnt = 0;
+    }
 /**PSV speed test
 		if (AGC_Flag == 1) {
 			Proc_AGC();
@@ -257,6 +267,15 @@ static void showMemUsage(){
   Serial.println(stack_ptr - heapend + mi.fordblks);
 }
 
+static void showMallocStats() {
+  if (lastNMalloc != nMalloc) {
+    lastNMalloc = nMalloc;
+    Serial.print(F("Malloc stats: "));
+    Serial.print(nMalloc); Serial.print(F(" , "));
+    Serial.println(sizeMalloc);
+  }
+}
+
 static void initializeHardware(void)
 {
 	debug(INIT, (const char*)F("initializeHardware:"));
@@ -275,7 +294,7 @@ static void initializeHardware(void)
 	main_delay(SETUP_DELAY);
 
 	debug(INIT, (const char*)F("initializeHardware:I2C_GPIO_Init\n"));
-	I2C_GPIO_Init();
+	I2C_GPIO_Init();    //Used for Si570
 	main_delay(SETUP_DELAY);
 	debug(INIT, "initializeHardware:I2C_Cntrl_Init\n");
 	I2C_Cntrl_Init();
@@ -290,10 +309,11 @@ static void initializeHardware(void)
 	debug(INIT, "initializeHardware:Audio_DMA_Init\n");
 	Audio_DMA_Init();
 	main_delay(SETUP_DELAY);
+**/  
 	debug(INIT, "initializeHardware:ResetModem\n");
 	ResetModem(BPSK_MODE);
 	main_delay(SETUP_DELAY);
-**/  
+
 	debug(INIT, "initializeHardware:displaySplashScreen\n");
 	//displaySplashScreen();
 	main_delay(SETUP_DELAY);
@@ -448,4 +468,3 @@ static void main_delay(uint32_t numLoops)
 		j++;
 	}
 }
-

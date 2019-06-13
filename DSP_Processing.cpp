@@ -36,9 +36,9 @@ float	RMS_Sig;
 float	dB_Sig;
 float 	DAC_RMS_Sig;
 
-int		Sig;
-int		Sig_Max;
-int 	Sig_Max1;
+int	Sig;
+int	Sig_Max;
+int	Sig_Max1;
 long	Sig_Total;
 long	Sig_Sum0;
 long	Sig_Sum1;
@@ -55,37 +55,47 @@ extern  float DAC_AGC_Mag;
 extern  unsigned int Flow;
 extern  unsigned int Fhigh;
 
-extern q15_t PFC[125];
+extern q15_t PFC[POST_FILT_SIZE];
 
-float32_t FFT_Output[256];
-float32_t FFT_Filter[256];
+float32_t FFT_Output[FFTLEN];
+float32_t FFT_Filter[FFTLEN];
 
-q15_t FFT_Input[1024];
-q15_t FFT_Scale[1024]; //512 sampling
-q15_t FFT_Magnitude[512]; //512 sampling
+q15_t FFT_Input[BUFFERSIZE];
+q15_t FFT_Scale[BUFFERSIZE];
+q15_t FFT_Magnitude[FFTLEN]; //512 sampling
 
-long FFT_Mag_10[256];
+long FFT_Mag_10[FFTLEN];
 
-uint16_t armBitRevTable[256]; 	//PSV  just to keep the compiler happy
+uint16_t armBitRevTable[FFTLEN]; 	//PSV  just to keep the compiler happy
 
-uint16_t FFT_Size = 512;  // change for 512 sampling
 uint8_t FFT_status;
 
-q15_t post_FILT_State[POST_FILT_SIZE + (BUFFERSIZE / 2) - 1];
-q15_t post_FILT_In[BUFFERSIZE / 2];
-q15_t post_FILT_Out[BUFFERSIZE / 2];
+q15_t post_FILT_State[POST_FILT_SIZE + (FFTLEN) - 1];
+q15_t post_FILT_In[FFTLEN];
+q15_t post_FILT_Out[FFTLEN];
 
-q15_t FIR_State_I[NUM_FIR_COEF + (BUFFERSIZE / 2) - 1];
-q15_t FIR_State_Q[NUM_FIR_COEF + (BUFFERSIZE / 2) - 1];
+q15_t FIR_State_I[NUM_FIR_COEF + (FFTLEN) - 1];
+q15_t FIR_State_Q[NUM_FIR_COEF + (FFTLEN) - 1];
 
-q15_t ADC_Buffer[BUFFERSIZE / 2];  //for 1024 sampling
+q15_t ADC_Buffer[FFTLEN];  //for 1024 sampling
+
+//* PSV circular buffers for filter delay
+q15_t Filter_delay_I1[38];
+q15_t Filter_delay_I2[38];
+q15_t Filter_delay_I3[65];
+q15_t Filter_delay_I4[65];
+
+q15_t Filter_delay_Q1[38];
+q15_t Filter_delay_Q2[38];
+q15_t Filter_delay_Q3[65];
+q15_t Filter_delay_Q4[65];
 
 //* PSV	arm_cfft_radix2_instance_q15 S_CFFT;
 arm_cfft_radix4_instance_q15 S_CFFT;
 
 void init_DSP(void) {
-//** PSV	FFT_status = arm_cfft_radix2_init_q15(&S_CFFT, FFT_Size, 0, 1);
-	FFT_status = arm_cfft_radix4_init_q15(&S_CFFT, FFT_Size, 0, 1);
+//** PSV	FFT_status = arm_cfft_radix2_init_q15(&S_CFFT, FFTLEN, 0, 1);
+	FFT_status = arm_cfft_radix4_init_q15(&S_CFFT, FFTLEN, 0, 1);
 }
 
 
@@ -136,12 +146,12 @@ void Sideband_Demod(void)
 void Process_FFT(void)
 {
 	//Execute complex FFT
-//** PSV	arm_cfft_radix2_q15(&S_CFFT, &FFT_Input[0]);
+	//** PSV	arm_cfft_radix2_q15(&S_CFFT, &FFT_Input[0]); ***************************
 	arm_cfft_radix4_q15(&S_CFFT, &FFT_Input[0]);
 	//Shift FFT data to compensate for FFT scaling
-	arm_shift_q15(&FFT_Input[0], 6, &FFT_Scale[0], 512 );
+	arm_shift_q15(&FFT_Input[0], 6, &FFT_Scale[0], BUFFERSIZE );
 	//Calculate the magnitude squared of FFT results ( i.e., power level)
-	arm_cmplx_mag_squared_q15(&FFT_Scale[0], &FFT_Magnitude[0], FFT_Size);
+	arm_cmplx_mag_squared_q15(&FFT_Scale[0], &FFT_Magnitude[0], FFTLEN);
 	//********************************************************
 
 	Sig_Max = 0;
@@ -156,9 +166,9 @@ void Process_FFT(void)
 	int jcwl = (int)(400/df);
 	int jcwh = (int)(800/df);
 
-	for (int j = 0; j < 256; j++) 
+	for (int j = 0; j < FFTLEN; j++) 
 		FFT_Mag_10[j] = (int) FFT_Magnitude[j] * 10; //add in 10 db gain
-	for (int16_t j = 8; j < 252; j++) {
+	for (int16_t j = 8; j < FFTLEN-3; j++) {
 		//Changed for 512 FFT
 		//This detects bins which are saturated and ignores them
 		if (FFT_Mag_10[j]> 0) {

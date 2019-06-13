@@ -83,6 +83,7 @@ BandsStruct s_bandsData[] = {
 		{ " 40m SSB",    7285000, 0, USERMODE_LSB},
 		{ " 20m SSB",   14285000, 0, USERMODE_USB},
 		{ " 15m SSB",   21385000, 0, USERMODE_USB},
+		{ " 6m SSB",   50100000, 0, USERMODE_USB},
 	    { "SI570 F0 ",  56320000, 0, USERMODE_USB},
 	    { "",         0, 0, USERMODE_USB},
 

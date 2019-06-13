@@ -31,6 +31,9 @@
 #include "DSP_Processing.h"
 #include  "uart.h"
 
+//***PSV for random()
+#include  "Arduino.h"
+
 /* define some constants  */
 #define PHZ_180_BMIN	(0.0)			/* 0         */
 #define PHZ_180_BMAX	(PI2/2.0)		/* Pi        */
@@ -715,6 +718,10 @@ void DecodeSymb(struct Complex newsamp)
 		if (m_BitAcc != 0) {
 			m_BitAcc >>= 2; /*get rid of last zero and one */
 			m_BitAcc &= 0x07FF;
+
+			//**PSV** 
+			m_BitAcc = random(0,255);	//testing
+
 			ch = m_VaricodeDecTbl[m_BitAcc];
 			m_BitAcc = 0;
 			GotChar = TRUE;

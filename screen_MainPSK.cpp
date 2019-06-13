@@ -136,7 +136,12 @@ static _Bool PGAUpdateHandler(GL_PageControls_TypeDef* pThis, _Bool forceRedispl
 	char buf[6] = "     ";
 	String str = " " + String(x);
 	str.toCharArray(buf, 6);
-	GL_PrintString(110, 80, buf, 0);
+	GL_SetBackColor(LCD_COLOR_BLACK);
+	GL_SetTextColor(LCD_COLOR_BLACK);
+	GL_PrintString(110+18-6*(str.length()), 80, " ", 0);
+	GL_SetBackColor(LCD_COLOR_BLACK);
+	GL_SetTextColor(LCD_COLOR_WHITE);
+	GL_PrintString(110+18-6*(str.length()), 80, buf, 0);
 	 return 0;
 }
 
@@ -145,10 +150,12 @@ static _Bool DACUpdateHandler(GL_PageControls_TypeDef* pThis, _Bool forceRedispl
 	char buf[6] = "     ";
 	//GL_SetTextColor(LCD_COLOR_BLACK);
 	//GL_PrintString(180, 80, buf, 0);
-	String str = String(x);
+	String str = " " + String(x);
 	str.toCharArray(buf, 6);
+	GL_SetBackColor(LCD_COLOR_BLACK);
 	GL_SetTextColor(LCD_COLOR_BLACK);
-	GL_PrintString(180+18-6*(str.length()), 80, " ", 0);
+	GL_PrintString(180+18-6*(str.length()-1), 80, " ", 0);
+	GL_SetBackColor(LCD_COLOR_BLACK);
 	GL_SetTextColor(LCD_COLOR_WHITE);
 	GL_PrintString(180+18-6*(str.length()-1), 80, buf, 0);
 	 return 0;
@@ -205,7 +212,8 @@ void ScreenMainPSK_Create(void)
 			btnFreq, s_pThisScreen);
 
 	// Keyboard status
-	pKeyboardLabel = Widget_NewLabel("Your keyboard...", LCD_COLOR_YELLOW, LCD_COLOR_BLACK, 0, GL_FONTOPTION_8x8,KeyboardStatusUpdateHandler);
+	pKeyboardLabel = Widget_NewLabel("Your keyboard...", LCD_COLOR_YELLOW, LCD_COLOR_BLACK, 0,
+		GL_FONTOPTION_8x8,KeyboardStatusUpdateHandler);
 	AddPageControlObj(LCD_WIDTH/2 -150, LCD_HEIGHT - 40, pKeyboardLabel, s_pThisScreen);
 
 	//AGC Mode Label
@@ -239,7 +247,6 @@ void ScreenMainPSK_Create(void)
 	GL_PageControls_TypeDef* btnC  = NewButton(14,  "CS ", C_Click);
 //	GL_PageControls_TypeDef* btnClear  = NewButton(16,  " Clear ", Clear_Click);
 
-
 	AddPageControlObj(255, 170, btnFT, s_pThisScreen);
 //	AddPageControlObj(170, LCD_HEIGHT - 42, btnWS, s_pThisScreen);
 	AddPageControlObj(126,   170, btnN, s_pThisScreen);
@@ -255,7 +262,6 @@ void ScreenMainPSK_Create(void)
 			int y = LCD_HEIGHT - 30 ;
 			AddPageControlObj(x, y, btnText, s_pThisScreen);
 		}
-
 }
 
 void Screen_PSK_SetTune (void){

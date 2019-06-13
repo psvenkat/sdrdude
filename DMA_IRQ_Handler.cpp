@@ -37,6 +37,18 @@ extern int FilterNumber;
 
 extern q15_t post_FILT_Out[BUFFERSIZE / 2];
 
+q15_t FIR_I_In[BUFFERSIZE / 2];
+q15_t FIR_Q_In[BUFFERSIZE / 2];
+q15_t FIR_I_Out[BUFFERSIZE / 2];
+q15_t FIR_Q_Out[BUFFERSIZE / 2];
+q15_t USB_Out[BUFFERSIZE / 2];
+q15_t LSB_Out[BUFFERSIZE / 2];
+
+extern int16_t Rx0BufferDMA[BUFFERSIZE];
+extern int16_t Tx0BufferDMA[BUFFERSIZE];
+extern int16_t Rx1BufferDMA[BUFFERSIZE];
+extern int16_t Tx1BufferDMA[BUFFERSIZE];
+
 // REVISIT: Remove?
 int16_t Tx_Flag;
 
@@ -251,6 +263,10 @@ void Xmit_PSK(void)
 	q15_t TXData;
 	static long NCO_phz;
 	float m_RMSConstant = 0.03;
+	double x_NCOphzinc; //PSV added
+	double NCO_Frequency = 2000;  //PSV added
+	float Sample_Frequency = 8000.0; //PSV added
+
 
 	x_NCOphzinc = (PI2 * (double) NCO_Frequency / (double) Sample_Frequency);
 

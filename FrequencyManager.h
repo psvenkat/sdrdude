@@ -42,6 +42,7 @@ typedef enum {
 	FREQBAND_M3,
 	FREQBAND_M4,
 	FREQBAND_M5,
+	FREQBAND_6M,
 	FREQBAND_SI570_F0,
 
 	// Count of number of bands

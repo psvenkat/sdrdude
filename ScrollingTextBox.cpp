@@ -61,11 +61,12 @@ void DisplayText ( char ch)
 	int y;
 
 	//Set Text Color
+	GL_SetBackColor(GL_BLACK);	//PSV
 
 	if(RxTx_InTxMode())
 		GL_SetTextColor(GL_RED);
 	else
-		GL_SetTextColor(GL_BLACK);
+		GL_SetTextColor(GL_WHITE);
 
 	// handle backspace
 	if (ch==8){

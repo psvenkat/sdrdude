@@ -388,6 +388,7 @@ void GL_PrintString(uint16_t x, uint16_t y, const char *str, _Bool isTransparent
 
 void GL_PrintChar(uint16_t x, uint16_t y, char c, _Bool isTransparent)
 {
+	/**PSV
 	const char FONT_DATA_OFFEST = ' ';
 	uint16_t firstRowOffset = (c - FONT_DATA_OFFEST) * g_pCurrentFont->Height;
 	const uint16_t *pData = &g_pCurrentFont->table[firstRowOffset];
@@ -400,6 +401,12 @@ void GL_PrintChar(uint16_t x, uint16_t y, char c, _Bool isTransparent)
 	} else {
 		GL_DrawBMP16Bit(x, y, g_pCurrentFont->Height, g_pCurrentFont->Width, pData, bitsReversed);
 	}
+	**/
+	//**PSV
+  	tft.setCursor(x,y);
+	tft.write(c);
+
+
 }
 
 /**PSV

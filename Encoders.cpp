@@ -103,8 +103,8 @@ void ISROptionA()
 		s_encoderOption.encoderPos--; //decrement the encoder's position count
 		s_encoderOption.bFlag = 0; //reset flags for the next turn
 		s_encoderOption.aFlag = 0; //reset flags for the next turn
-		s_encoderOption.direction = -1;
-		s_encoderOption.change--;
+		s_encoderOption.direction = 1;
+		s_encoderOption.change++;
 	}
 	else if (s_encoderOption.regData == READ1_A) 
 		s_encoderOption.bFlag = 1; //signal that we're expecting pinB to 
@@ -126,8 +126,8 @@ void ISROptionB(){
 		s_encoderOption.encoderPos++; //decrement the encoder's position count
 		s_encoderOption.bFlag = 0; //reset flags for the next turn
 		s_encoderOption.aFlag = 0; //reset flags for the next turn
-		s_encoderOption.direction = 1;
-		s_encoderOption.change++;
+		s_encoderOption.direction = -1;
+		s_encoderOption.change--;
 	}
 	else if (s_encoderOption.regData == READ1_B) 
 		s_encoderOption.aFlag = 1; //signal that we're expecting pinB to 

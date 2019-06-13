@@ -1,0 +1,31 @@
+/*
+https://github.com/prenticedavid/MCUFRIEND_kbv/issues/49
+
+	H/W Resources used
+	Si570 - PIN32 Vcc
+		PIN20 SDA
+		PIN21 SCL
+	PTT	PIN35
+	ENC	OPT(1)
+		A   PIN25
+		B   PIN26
+		BUT PIN24
+		Freq(2)
+		A   PIN27
+		B   PIN28
+		BUT PIN23
+	ADC	A6, A
+	ADCLed	PIN30
+	DAC	CH0, CH1
+	DACLed	PIN31
+	Timer
+	ADC	TC0, CH0
+	DAC	TC0, CH1
+	DSPLED	PIN34
+	LCD
+		XP PIN6, YP A1, XM A2, YM PIN7
+		LCD_RD A0, LCD_WD A1, RS A2, CS A3, RST A4
+		LCD_07 - _02 PIN7 - PIN2, PIN1, PIN0 NC
+		LCD_00 PIN8, LCD_01 PIN9
+		SD_SS, DI, DO, SCK - PIN10 - PIN13
+		GND, AREF

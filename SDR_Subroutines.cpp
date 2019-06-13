@@ -418,8 +418,10 @@ void process_button ( void ){
 	}
 	if (!ButtonPress && Press_cnt){
 		if(Press_cnt >=2){
-//			FilterNumber++;
-//			FilterNumber %= NumFilts;
+			//FilterNumber++;
+			//FilterNumber %= NumFilts;
+			FilterNumber = static_cast<FiltNum>((static_cast<int>(FilterNumber)+1) %
+					NumFilts);
 			button_one_shot = 0;
 			Press_cnt = 0;
 			ProcessFilters (FilterNumber);

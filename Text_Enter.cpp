@@ -295,35 +295,35 @@ uint8_t textCount; // count is used when reading data from eeprom
 	TagStruct s_TagData[] = {
 	{
 		/*Item*/ "MyName",
-		/*Text*/ "John Doe",
+		/*Text*/ "Venkat",
 		//                 ^10       ^20       ^30       ^40
 		/*Count*/ 0,
 		/*Count*/ 0
 	},
 	{
 		/*Item*/ "MyCall",
-		/*Text*/ "A1BCD",
+		/*Text*/ "AB2ZT",
 		//                 ^10       ^20       ^30       ^40
 		/*Count*/ 0,
 		/*Count*/ 0
 	},
 	{
 		/*Item*/ "QTH",
-		/*Text*/ "My Home",
+		/*Text*/ "Edison/NJ",
 		//                 ^10       ^20       ^30       ^40
 		/*Count*/ 0,
 		/*Count*/ 0
 	},
 	{
 		/*Item*/ "Rig",
-		/*Text*/ "STM-32 SDR",
+		/*Text*/ "DUE-UHFSDR",
 		//                 ^10       ^20       ^30       ^40
 		/*Count*/ 0,
 		/*Count*/ 0
 	},
 	{
 		/*Item*/ "Ant",
-		/*Text*/ "Dipole",
+		/*Text*/ "INV-V",
 		//                 ^10       ^20       ^30       ^40
 		/*Count*/ 0,
 		/*Count*/ 0
@@ -379,14 +379,14 @@ uint8_t textCount; // count is used when reading data from eeprom
 	},
 	{
 		/*Item*/ "StnCS",
-		/*Text*/ "Stn Call",
+		/*Text*/ "AB2ZT",
 		//                 ^10       ^20       ^30       ^40
 		/*Count*/ 0,
 		/*Count*/ 0
 	},
 	{
 		/*Item*/ "StnNM",
-		/*Text*/ "Stn Name",
+		/*Text*/ "Home Base",
 		//                 ^10       ^20       ^30       ^40
 		/*Count*/ 0,
 		/*Count*/ 0

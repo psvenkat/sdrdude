@@ -23,6 +23,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
+#include <Arduino.h>
 
 #include "arm_math.h"
 #include "DSP_Processing.h"
@@ -33,6 +34,7 @@
 #include "math.h"
 #include "widget_FFTDisplay.h"
 #include "ModeSelect.h"
+#include "xprintf.h"
 
 //waterfall
 //int		line;
@@ -42,7 +44,7 @@ int		WF_Count = 0;
 int		WF_Bfr[15360];	//for 240*64
 int		*pWFBfr;
 */
-uint8_t		WF_Bfr[25600];	//for 400*64=25600
+uint8_t		WF_Bfr[FFTLEN*64];	//for 400*64=25600
 uint8_t		*pWFBfr;
 
 int		WF_Flag = 1; //Default to Spectrum Display
@@ -50,7 +52,7 @@ int		WF_Flag = 1; //Default to Spectrum Display
 extern int NCO_Point;
 
 // Constants
-static const int FFT_WIDTH   = 400;		//240;
+static const int FFT_WIDTH   = FFTLEN;		//240;
 static const int FFT_HEIGHT  =  64;
 static const int SELFREQ_ADJ =   4;
 static const int CHARACTER_WIDTH = 8;
@@ -81,7 +83,7 @@ double NCO_2;
 
 
 int		NCO_Bin;
-uint8_t FFT_Display[256];
+uint8_t FFT_Display[FFTLEN];
 extern	int RSL_Mag;
 extern  unsigned int Flow;
 extern	unsigned int Fhigh;
@@ -168,7 +170,7 @@ static void WidgetFFT_EventHandler(GL_PageControls_TypeDef* pThis)
 	// Get the coordinates:
 	uint16_t X_Point, Y_Point;
 	TS_GetTouchEventCoords(&X_Point, &Y_Point);
-
+	debug(GUI, (const char*)F("FFT Event Handler X-%d Y-%d\n"), X_Point, Y_Point);
 
 	//Update PSK NCO Frequency
 	int fftLeftEdge = pThis->objCoordinates.MinX;
@@ -184,6 +186,9 @@ static void WidgetFFT_DrawHandler(GL_PageControls_TypeDef* pThis, _Bool force)
 	if (!force && !DSP_Flag) {
 		return;
 	}
+
+	//debug(GUI, (const char*)F("FFT Draw Handler\n"));
+
 
 	// Extract the FFT's screen coordinates.
 	int x = pThis->objCoordinates.MinX;
@@ -203,7 +208,7 @@ static void WidgetFFT_DrawHandler(GL_PageControls_TypeDef* pThis, _Bool force)
 	}
 
 	// Display AGC Variables for Testing / Troubleshooting
-	displayAGCVariables(RSL);
+	//**PSV** displayAGCVariables(RSL);  //doing crazy refresh of RF, AF and RSL numbers
 
 	// Display SMeter
 	displaySMeter(RSL);
@@ -217,11 +222,12 @@ static void WidgetFFT_DrawHandler(GL_PageControls_TypeDef* pThis, _Bool force)
 
 static void displayFFT(int xPos, int yPos)
 {
-	for (int16_t j = 0; j < 256; j++) {
+	for (int16_t j = 0; j < FFTLEN; j++) {
 		if (FFT_Filter[j] > 64.0) {
 			FFT_Display[j]  = 64;
 		} else {
 			FFT_Display[j] = (uint8_t)FFT_Filter[j];
+			//**PSV** FFT_Display[j] = random(1,64);	//testing
 		}
 	}
 
@@ -243,46 +249,58 @@ static void displayFFT(int xPos, int yPos)
 
 		// Draw the FFT using direct memory writes (fast).
 		GL_SetDisplayWindow(xPos, yPos, FFT_HEIGHT, FFT_WIDTH);
-//**PSV		LCD_WriteRAM_PrepareDir(LCD_WriteRAMDir_Down);
+		//**PSV		LCD_WriteRAM_PrepareDir(LCD_WriteRAMDir_Down);
 
 
 		for (int x = 0; x < FFT_WIDTH; x++) {
 			int xRel = x + xPos;
 			// Plot this column of the FFT.
+			/**PSV draw using GL_DrawLine(x,y,len,V/H)
 			for (int y = 0; y < FFT_HEIGHT; y++) {
 				int yRel = y + yPos;
-					// Draw red line for selected frequency
-					//if ((x == (int) (selectedFreqX + 0.5)) && isShowingAFOffset){
-					if ((x == NCO_Point && Mode_GetCurrentMode() == MODE_PSK)
-						|| (x == 27 && Mode_GetCurrentMode() == MODE_CW)){
-						// Leave some white at the top
-						if (y <= SELFREQ_ADJ) {
-							//LCD_WriteRAM(LCD_COLOR_WHITE);
-							GL_DrawPixel(xRel, yRel, LCD_COLOR_WHITE);
-						} else {
-							//LCD_WriteRAM(LCD_COLOR_RED);
-							GL_DrawPixel(xRel, yRel, LCD_COLOR_RED);
-						}
+				// Draw red line for selected frequency
+				//if ((x == (int) (selectedFreqX + 0.5)) && isShowingAFOffset){
+				if ((x == NCO_Point && Mode_GetCurrentMode() == MODE_PSK)
+					|| (x == 27 && Mode_GetCurrentMode() == MODE_CW)){
+					// Leave some white at the top
+					if (y <= SELFREQ_ADJ) {
+						//LCD_WriteRAM(LCD_COLOR_WHITE);
+						GL_DrawPixel(xRel, yRel, LCD_COLOR_WHITE);
+					} else {
+						//LCD_WriteRAM(LCD_COLOR_RED);
+						GL_DrawPixel(xRel, yRel, LCD_COLOR_RED);
 					}
-
-
+				}
 				// Draw data
 				else if (FFT_HEIGHT - y < FFT_Display[x + 8]) {
 					//LCD_WriteRAM(LCD_COLOR_BLUE);
 					GL_DrawPixel(xRel, yRel, LCD_COLOR_BLUE);
 				}
-
 				// Draw background
 				else {
 					//LCD_WriteRAM(LCD_COLOR_WHITE);
 					GL_DrawPixel(xRel, yRel, LCD_COLOR_WHITE);
 				}
 			}
+			**/
+			if ((x == NCO_Point && Mode_GetCurrentMode() == MODE_PSK)
+				|| (x == 27 && Mode_GetCurrentMode() == MODE_CW)){
+				// Leave some white at the top
+				GL_SetTextColor(LCD_COLOR_WHITE);
+				GL_DrawLine(xRel, yPos, SELFREQ_ADJ, GL_Vertical);
+				GL_SetTextColor(LCD_COLOR_RED);
+				GL_DrawLine(xRel, yPos+SELFREQ_ADJ+1, FFT_HEIGHT - SELFREQ_ADJ - yPos, GL_Vertical);
+			}
+			else {
+				GL_SetTextColor(LCD_COLOR_WHITE);
+				GL_DrawLine(xRel,  yPos, FFT_HEIGHT - FFT_Display[x + 8], GL_Vertical);
+				GL_SetTextColor(LCD_COLOR_BLUE);
+				GL_DrawLine(xRel, yPos + FFT_HEIGHT - FFT_Display[x + 8] , FFT_Display[x + 8], GL_Vertical);
+			}
 		}
 	}
 	else
 	{
-
 		if (WF_Count == 0){
 			// Draw the Waterfall using direct memory writes (fast).
 			GL_SetDisplayWindow(xPos, yPos, FFT_HEIGHT, FFT_WIDTH);
@@ -349,7 +367,8 @@ static void displayFrequencyOffsetText(_Bool force)
 	// Update the frequency offset displayed (text):
 	static double oldSelectedFreq = -1;
 	static double old_m_SQOpen = -1;
-	if (force || oldSelectedFreq != NCO_Frequency || old_m_SQOpen != m_SQOpen) {
+	force = TRUE;	//**PSV
+	//if (force || oldSelectedFreq != NCO_Frequency || old_m_SQOpen != m_SQOpen) {
 		oldSelectedFreq = NCO_Frequency;
 		old_m_SQOpen = m_SQOpen;
 
@@ -366,11 +385,11 @@ static void displayFrequencyOffsetText(_Bool force)
 		if (m_SQOpen == 0)
 			GL_SetTextColor(LCD_COLOR_RED);
 		else
-			GL_SetTextColor(LCD_COLOR_GREEN);
+			GL_SetTextColor(LCD_COLOR_BLUE);
 		char number[MAX_FREQ_DIGITS + 1];
 		intToCommaString((int) NCO_Frequency, number, MAX_FREQ_DIGITS + 1);
 		GL_PrintString(numberX, textY, number, 0);
-	}
+	//}
 }
 
 static void displayAGCVariables(int RSL)
@@ -383,19 +402,19 @@ static void displayAGCVariables(int RSL)
 	//GL_PrintString(75, 80, test2, 0);
 
 	GL_SetFont(GL_FONTOPTION_8x16);
-	GL_SetTextColor(LCD_COLOR_RED);
+	GL_SetTextColor(LCD_COLOR_WHITE);
 	GL_SetBackColor(LCD_COLOR_BLACK);
 	char test3[3];
 	intToCommaString(PGAGain, test3, 3);
-	GL_PrintString(110, 80, test3, 0);
+	GL_PrintString(116, 80, test3, 0);
 
-	GL_SetTextColor(LCD_COLOR_RED);
+	GL_SetTextColor(LCD_COLOR_WHITE);
 	GL_SetBackColor(LCD_COLOR_BLACK);
 	char test4[5];
 	intToCommaString(AGC_Signal, test4, 5);
 	GL_PrintString(180, 80, test4, 0);
 
-	GL_SetTextColor(LCD_COLOR_RED);
+	GL_SetTextColor(LCD_COLOR_WHITE);
 	GL_SetBackColor(LCD_COLOR_BLACK);
 	char test5[5];
 	intToCommaString(RSL, test5, 5);

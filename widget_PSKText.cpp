@@ -27,7 +27,7 @@
 #include "PSKMod.h"
 #include "Keyboard_Input.h"
 #include "Text_Enter.h"
-
+#include "Arduino.h"	//**PSV
 // Colours:
 
 // Offsets for text:
@@ -100,8 +100,6 @@ static void drawHandler(GL_PageControls_TypeDef* pThis, _Bool force)
 	static uint32_t lastNameHash = 0;
 	extern unsigned char NewChar;
 
-
-
 	uint32_t curTxHash = calculateStringHash(XmitBuffer);
 	uint32_t curKeyboardHash = calculateStringHash((char*) kybd_string);
 	uint32_t curCallHash = calculateStringHash(Get_Contact(0));
@@ -114,7 +112,6 @@ static void drawHandler(GL_PageControls_TypeDef* pThis, _Bool force)
 	_Bool redrawKeyboardBuffer = force || lastKeyboardHash != curKeyboardHash;
 	_Bool redrawCallBuffer = force || lastCallHash != curCallHash;
 	_Bool redrawNameBuffer = force || lastNameHash != curNameHash;
-
 
 	// Display Call
 	if (redrawCallBuffer){
@@ -142,16 +139,17 @@ static void drawHandler(GL_PageControls_TypeDef* pThis, _Bool force)
 		DisplayText (NewChar);
 		NewChar = 0;
 	}
+	//DisplayText(random(32,128));	//**PSV
 
 	// Display the Queue
 	if (redrawTxBuffer) {
-		//GL_PrintString(x + OFFSETX_TX, y + OFFSETY_TX, XmitBuffer, 0);
+		//GL_PrintString(0 + OFFSETX_TX, 0 + OFFSETY_TX, XmitBuffer, 0);
 		//lastTxHash = curTxHash;
 	}
 
 	// Display the keyboard buffer
 	if (redrawKeyboardBuffer) {
-		//GL_PrintString(x + OFFSETX_KEYBOARD, y + OFFSETY_KEYBOARD, (char*) kybd_string, 0);
+		//GL_PrintString(0 + OFFSETX_KEYBOARD, 0 + OFFSETY_KEYBOARD, (char*) kybd_string, 0);
 		//lastKeyboardHash = curKeyboardHash;
 	}
 }
@@ -170,6 +168,4 @@ static uint32_t calculateStringHash(char* str)
 
 	return hash;
 }
-
-
 

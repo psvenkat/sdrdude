@@ -31,10 +31,10 @@ void init_DSP(void);
 void Process_post_FILT (void);
 
 
-extern float32_t FFT_Output[256];
-extern float32_t FFT_Filter[256];
-extern q15_t FFT_Input[1024];  //512sampling
-extern q15_t FFT_Magnitude[512];  //512 sampling
+extern float32_t FFT_Output[FFTLEN];
+extern float32_t FFT_Filter[FFTLEN];
+extern q15_t FFT_Input[BUFFERSIZE];  //512sampling
+extern q15_t FFT_Magnitude[FFTLEN];  //512 sampling
 
 extern q15_t FIR_I_In[BUFFERSIZE / 2];
 extern q15_t FIR_Q_In[BUFFERSIZE / 2];
